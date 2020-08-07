@@ -5,7 +5,7 @@
 
 A weather app inspired by the beautiful designs made by [Olia Gozha](https://dribbble.com/shots/4663154-). In this App you'll be able to find out the live weather data in the current location of the device as well as the weather for any city you can think of!
 
-![Finished App](https://cdn.discordapp.com/attachments/570925361576149001/741309050678935632/20200807_202700.gif)
+![Finished App](https://cdn.discordapp.com/attachments/570925361576149001/741356033351483482/20200807_233343.gif)
 
 ---
 
