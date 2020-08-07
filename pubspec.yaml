@@ -11,8 +11,8 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^0.1.2
+  geolocator: ^5.3.2+2
   http: ^0.12.2
-  location: ^3.0.0
   flutter_spinkit: ^4.1.2+1
 
 dev_dependencies:
@@ -30,3 +30,6 @@ flutter:
       fonts:
         - asset: fonts/SpartanMB-Black.otf
           weight: 900
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto-Regular.ttf
