@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:clima/screens/city_screen.dart';
 import 'package:clima/services/weather.dart';
+import 'package:clima/utilities/colour_change_with_time.dart';
 import 'package:clima/utilities/weather_info_reusable_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class LocationScreen extends StatefulWidget {
 
 class _LocationScreenState extends State<LocationScreen> {
   WeatherModel weatherModel = WeatherModel();
+  ColourChangeWithTime colourChangeWithTime = ColourChangeWithTime();
   var decodedData;
   var temperature;
   var condition;
@@ -71,6 +73,7 @@ class _LocationScreenState extends State<LocationScreen> {
     // TODO: implement initState
     super.initState();
     print(cityName);
+    print(DateTime.now().hour);
     updateUI(widget.locationWeather);
   }
 
@@ -81,6 +84,15 @@ class _LocationScreenState extends State<LocationScreen> {
         weatherIcon = 'Error';
         msg = 'Unable to get weather data';
         cityName = '';
+        feelsLike = 0;
+        visibilityValue = 0;
+        pressure = 0;
+        maxTemp = 0;
+        windSpeed = 0;
+        humidity = 0;
+
+        //TODO: initialize all variables with -.- values
+        //TODO: update the github readme.md
         return;
       }
       temperature = (weatherData['main']['temp']);
@@ -149,6 +161,7 @@ class _LocationScreenState extends State<LocationScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      backgroundColor: colourChangeWithTime.getContainerColor(),
       body: Container(
         padding: EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -170,6 +183,7 @@ class _LocationScreenState extends State<LocationScreen> {
                             },
                             style: TextStyle(
                               color: Colors.black,
+                              fontFamily: 'Poppins',
                             ),
                             decoration: kTextFieldInputDecoraion,
                           ),
@@ -178,15 +192,15 @@ class _LocationScreenState extends State<LocationScreen> {
                           width: 20.0,
                         ),
                         FlatButton(
-                          color: Color(0xFFc41a43),
+                          color: colourChangeWithTime.getButtonColor(),
                           padding: EdgeInsets.all(16.0),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18.0),
                           ),
                           onPressed: () async {
                             if (typedCity != null) {
-                              var cityWeather = await weatherModel
-                                  .getCityWeather(typedCity);
+                              var cityWeather =
+                                  await weatherModel.getCityWeather(typedCity);
                               updateUI(cityWeather);
                             }
                             FocusScope.of(context).unfocus();
@@ -198,6 +212,9 @@ class _LocationScreenState extends State<LocationScreen> {
                           ),
                         )
                       ],
+                    ),
+                    SizedBox(
+                      height: 20.0,
                     ),
                     Text(
                       '$cityName',
@@ -227,7 +244,10 @@ class _LocationScreenState extends State<LocationScreen> {
                     ),
                     Text(
                       '°',
-                      style: TextStyle(fontSize: 40.0),
+                      style: TextStyle(
+                        fontSize: 40.0,
+                        color: colourChangeWithTime.getTempColor(),
+                      ),
                     ),
                   ],
                 ),

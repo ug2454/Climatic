@@ -1,17 +1,23 @@
+import 'package:clima/utilities/colour_change_with_time.dart';
 import 'package:flutter/material.dart';
 
-const kTempTextStyle = TextStyle(
-    fontFamily: 'Poppins', fontSize: 100.0, fontWeight: FontWeight.w200);
+ColourChangeWithTime _colourChangeWithTime = ColourChangeWithTime();
+
+var kTempTextStyle = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 100.0,
+    fontWeight: FontWeight.w200,
+    color: _colourChangeWithTime.getTempColor());
 
 const kMessageTextStyle = TextStyle(
   fontFamily: 'Spartan MB',
   fontSize: 60.0,
 );
 
-const kButtonTextStyle = TextStyle(
+var kButtonTextStyle = TextStyle(
   fontSize: 20.0,
-  // fontFamily: 'Spartan MB',
-  color: Colors.white,
+  color: _colourChangeWithTime.getButtonTextColor(),
+  fontFamily: 'Poppins',
 );
 
 const kConditionTextStyle = TextStyle(
@@ -42,8 +48,8 @@ const kTextFieldInputDecoraion = InputDecoration(
   ),
 );
 
-const kCityTextStyle = TextStyle(
-  color: Color(0xFF2D2532),
+var kCityTextStyle = TextStyle(
+  color: _colourChangeWithTime.getCityTextColor(),
   fontFamily: 'Poppins',
   fontSize: 40.0,
 );
@@ -53,12 +59,6 @@ const kDateTextStyle = TextStyle(
     fontSize: 15.0,
     color: Color(0xFFbdb9b9),
     fontWeight: FontWeight.bold);
-
-const kBottomNavigationBarItemColor = Color(0xFFc41a43);
-
-const kBottomNavigationBarTextStyle = TextStyle(
-  fontFamily: 'Poppins',
-);
 
 const kWeatherDescriptionTextStyle = TextStyle(
     color: Color(0xFFc41a43),
