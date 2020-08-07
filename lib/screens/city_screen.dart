@@ -12,8 +12,9 @@ class _CityScreenState extends State<CityScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomPadding: false,
       body: Container(
-        constraints: BoxConstraints.expand(),
         child: SafeArea(
           child: Column(
             children: <Widget>[
@@ -45,7 +46,7 @@ class _CityScreenState extends State<CityScreen> {
               ),
               FlatButton(
                 // padding: EdgeInsets.all(8.0),
-                color: Colors.green,
+                color: Color(0xFFc41a43),
 
                 onPressed: () {
                   Navigator.pop(context, cityName);

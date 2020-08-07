@@ -38,8 +38,8 @@ class _LoadingScreenState extends State<LoadingScreen>
     return Scaffold(
       body: Center(
         child: SpinKitCubeGrid(
-          color: Colors.white,
-          size: 50.0,
+          color: Color(0xFFc41a43),
+          size: 100.0,
           controller: AnimationController(
             vsync: this,
             duration: const Duration(milliseconds: 1200),
