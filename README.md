@@ -25,4 +25,17 @@ A weather app inspired by the beautiful designs made by [Alyssa-Maree](https://d
 - Spinner to show to user while the data loads.
 - Day and Night UI colour change dynamically.
 
+---
 
+## Features:
+
+- Temperature
+- Feels like temperature
+- Visibility
+- Pressure
+- Max temperature
+- Wind speed
+- Humidity
+- Day/night mode
+- Search weather by city
+- Get current weather on clicking on 'search icon'
