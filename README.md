@@ -39,3 +39,4 @@ A weather app inspired by the beautiful designs made by [Alyssa-Maree](https://d
 - Day/night mode
 - Search weather by city
 - Get current weather on clicking on 'search icon'
+- Hourly Weather Forecast with dynamic temperature, weather icon and time in horizontal scrolling
