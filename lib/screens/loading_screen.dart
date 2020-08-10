@@ -28,7 +28,8 @@ class _LoadingScreenState extends State<LoadingScreen>
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {
         return LocationScreen(
-          locationWeather: weatherData,hourlyWeather: hourlyData,
+          locationWeather: weatherData,
+          hourlyWeather: hourlyData,
         );
       },
     ));
