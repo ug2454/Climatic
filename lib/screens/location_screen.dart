@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:clima/screens/city_screen.dart';
 import 'package:clima/services/weather.dart';
 import 'package:clima/utilities/colour_change_with_time.dart';
 import 'package:clima/utilities/weather_info_reusable_widget.dart';
@@ -115,7 +114,9 @@ class _LocationScreenState extends State<LocationScreen> {
         maxTemp = 0;
         windSpeed = 0;
         humidity = 0;
-
+        //tempList = [];
+        //iconList = [];
+        //dateList = [];
         //TODO: initialize all variables with appropriate values  done
         //TODO: update the github readme.md  done
         return;
@@ -207,6 +208,7 @@ class _LocationScreenState extends State<LocationScreen> {
                         children: [
                           Expanded(
                             child: TextField(
+                              textInputAction: TextInputAction.go,
                               selectionWidthStyle: BoxWidthStyle.tight,
                               onChanged: (value) {
                                 typedCity = value;
@@ -217,14 +219,14 @@ class _LocationScreenState extends State<LocationScreen> {
                               ),
                               decoration: InputDecoration(
                                 hintText: 'Enter a city name',
+                                contentPadding: EdgeInsets.all(10.0),
                                 hintStyle: TextStyle(
-                                  color: Colors.black,
+                                  color: Colors.grey,
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
                                 icon: GestureDetector(
                                   onTap: () async {
-                                    print('icon clicked');
                                     var cityHourlyWeather =
                                         await weatherModel.getHourlyWeather();
                                     tempList = [];
@@ -242,6 +244,9 @@ class _LocationScreenState extends State<LocationScreen> {
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10.0),
+                                  ),
                                   borderSide: BorderSide(
                                     color: Color(0xFFc41a43),
                                   ),
@@ -254,14 +259,14 @@ class _LocationScreenState extends State<LocationScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 20.0,
                           ),
                           FlatButton(
                             color: colourChangeWithTime.getButtonColor(),
-                            padding: EdgeInsets.all(16.0),
+                            padding: EdgeInsets.all(8.0),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
                             onPressed: () async {
                               if (typedCity != null) {
@@ -373,9 +378,13 @@ class _LocationScreenState extends State<LocationScreen> {
                     ],
                   ),
                   Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10.0),
+                        )),
                     margin: EdgeInsets.symmetric(vertical: 20.0),
                     height: 100.0,
-                    color: Colors.white,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: 9,
