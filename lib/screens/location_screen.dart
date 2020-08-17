@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:clima/services/address_search.dart';
+import 'package:clima/services/place_service.dart';
 import 'package:clima/services/weather.dart';
 import 'package:clima/utilities/colour_change_with_time.dart';
 import 'package:clima/utilities/weather_info_reusable_widget.dart';
@@ -7,6 +9,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:uuid/uuid.dart';
+
+const googleAPIKey = 'AIzaSyBVu6kY2gzNmzfXJP7noby7wDjuPiQg-ik';
 
 class LocationScreen extends StatefulWidget {
   LocationScreen({this.locationWeather, this.hourlyWeather});
@@ -19,6 +25,8 @@ class LocationScreen extends StatefulWidget {
 class _LocationScreenState extends State<LocationScreen> {
   WeatherModel weatherModel = WeatherModel();
   ColourChangeWithTime colourChangeWithTime = ColourChangeWithTime();
+  final _controller = TextEditingController();
+
   var decodedData;
   var temperature;
   var condition;
@@ -84,6 +92,12 @@ class _LocationScreenState extends State<LocationScreen> {
     print(DateTime.now().hour);
     updateUI(widget.locationWeather);
     updateHourlyData(widget.hourlyWeather);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   void updateHourlyData(dynamic hourlyData) {
@@ -205,22 +219,33 @@ class _LocationScreenState extends State<LocationScreen> {
                               child: TextField(
                                 textInputAction: TextInputAction.go,
                                 selectionWidthStyle: BoxWidthStyle.tight,
-                                onChanged: (value) {
-                                  typedCity = value;
+                                controller: _controller,
+                                readOnly: true,
+                                onTap: () async {
+                                  // typedCity = value;
+                                  final sessionToken = Uuid().v4();
+                                  final Suggestion result = await showSearch(
+                                      context: context,
+                                      delegate: AddressSearch(sessionToken));
+
+                                  setState(() {
+                                    _controller.text = result.description;
+                                    typedCity = _controller.text;
+                                  });
                                 },
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontFamily: 'Poppins',
                                 ),
                                 decoration: InputDecoration(
-                                  hintText: 'Enter a city name',
+                                  hintText: 'Search city name',
                                   contentPadding: EdgeInsets.all(10.0),
                                   hintStyle: TextStyle(
                                     color: Colors.grey,
                                   ),
                                   filled: true,
                                   fillColor: Colors.white,
-                                  icon: GestureDetector(
+                                  prefixIcon: GestureDetector(
                                     onTap: () async {
                                       var cityHourlyWeather =
                                           await weatherModel.getHourlyWeather();
@@ -234,13 +259,30 @@ class _LocationScreenState extends State<LocationScreen> {
                                     },
                                     child: Icon(
                                       Icons.search,
-                                      size: 40.0,
                                       color: Color(0xFFc41a43),
                                     ),
                                   ),
+                                  // icon: GestureDetector(
+                                  //   onTap: () async {
+                                  //     var cityHourlyWeather =
+                                  //         await weatherModel.getHourlyWeather();
+                                  //     tempList = [];
+                                  //     iconList = [];
+                                  //     dateList = [];
+                                  //     updateHourlyData(cityHourlyWeather);
+                                  //     var weatherData = await weatherModel
+                                  //         .getLocationWeather();
+                                  //     updateUI(weatherData);
+                                  //   },
+                                  //   child: Icon(
+                                  //     Icons.search,
+                                  //     size: 40.0,
+                                  //     color: Color(0xFFc41a43),
+                                  //   ),
+                                  // ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0),
+                                      Radius.circular(30.0),
                                     ),
                                     borderSide: BorderSide(
                                       color: Color(0xFFc41a43),
@@ -248,7 +290,7 @@ class _LocationScreenState extends State<LocationScreen> {
                                   ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0),
+                                      Radius.circular(30.0),
                                     ),
                                   ),
                                 ),
@@ -259,9 +301,9 @@ class _LocationScreenState extends State<LocationScreen> {
                             ),
                             FlatButton(
                               color: colourChangeWithTime.getButtonColor(),
-                              padding: EdgeInsets.all(8.0),
+                              padding: EdgeInsets.all(9.0),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
+                                borderRadius: BorderRadius.circular(30.0),
                               ),
                               onPressed: () async {
                                 if (typedCity != null) {
