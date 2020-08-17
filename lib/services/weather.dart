@@ -1,16 +1,15 @@
 import 'package:clima/services/_location.dart';
 import 'package:clima/services/networking.dart';
 import 'package:clima/utilities/colour_change_with_time.dart';
-import 'package:clima/utilities/constants.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttericon/meteocons_icons.dart';
 
-const apiKey = 'a9f0de43f7ae80b8312ceb33a386b6b3';
 const openWeatherMapURL = 'https://api.openweathermap.org/data/2.5/weather';
 const openWeatherForecastURL =
     'https://api.openweathermap.org/data/2.5/forecast';
 
 class WeatherModel {
+  static final String openWeatherAPIKey = 'a9f0de43f7ae80b8312ceb33a386b6b3';
   ColourChangeWithTime _colourChangeWithTime = ColourChangeWithTime();
   Icon getWeatherIcon(int condition) {
     if (condition < 300) {
@@ -65,17 +64,19 @@ class WeatherModel {
   }
 
   Future<dynamic> getCityWeather(String cityName) async {
+    print(openWeatherAPIKey);
     NetworkHelper networkHelper = NetworkHelper(
-        '$openWeatherMapURL?q=$cityName&appid=$apiKey&units=metric');
+        '$openWeatherMapURL?q=$cityName&appid=$openWeatherAPIKey&units=metric');
     var weatherData = await networkHelper.getData();
     return weatherData;
   }
 
   Future<dynamic> getLocationWeather() async {
+    print(openWeatherAPIKey);
     LocationCoordinates location = LocationCoordinates();
     await location.getCurrentLocation();
     NetworkHelper networkHelper = NetworkHelper(
-        '$openWeatherMapURL?lat=${location.getLatitude()}&lon=${location.getLongitude()}&appid=$apiKey&units=metric');
+        '$openWeatherMapURL?lat=${location.getLatitude()}&lon=${location.getLongitude()}&appid=$openWeatherAPIKey&units=metric');
     var weatherData = await networkHelper.getData();
     return weatherData;
   }
@@ -84,7 +85,7 @@ class WeatherModel {
     LocationCoordinates location = LocationCoordinates();
     await location.getCurrentLocation();
     NetworkHelper networkHelper = NetworkHelper(
-        '$openWeatherForecastURL?lat=${location.getLatitude()}&lon=${location.getLongitude()}&appid=$apiKey&units=metric');
+        '$openWeatherForecastURL?lat=${location.getLatitude()}&lon=${location.getLongitude()}&appid=$openWeatherAPIKey&units=metric');
     var weatherData = await networkHelper.getData();
     return weatherData;
   }
@@ -93,7 +94,7 @@ class WeatherModel {
     LocationCoordinates location = LocationCoordinates();
     await location.getCurrentLocation();
     NetworkHelper networkHelper = NetworkHelper(
-        '$openWeatherForecastURL?q=$cityName&appid=$apiKey&units=metric');
+        '$openWeatherForecastURL?q=$cityName&appid=$openWeatherAPIKey&units=metric');
     var weatherData = networkHelper.getData();
     return weatherData;
   }

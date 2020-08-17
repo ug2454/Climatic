@@ -19,12 +19,10 @@ class PlaceApiProvider {
   final client = Client();
   PlaceApiProvider(this.sessionToken);
   final sessionToken;
-
-  static final String androidKey = 'AIzaSyA-VjN_0GLLFMiqqNz8fqFLPkL1atobEcw';
-
+  static final String androidAPIKey = 'AIzaSyA-VjN_0GLLFMiqqNz8fqFLPkL1atobEcw';
   Future<List<Suggestion>> fetchSuggestions(String input, String lang) async {
     final request =
-        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&language=$lang&key=$androidKey&sessiontoken=$sessionToken';
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&language=$lang&key=$androidAPIKey&sessiontoken=$sessionToken';
     print(request);
     final response = await client.get(request);
 
@@ -32,8 +30,7 @@ class PlaceApiProvider {
       final result = json.decode(response.body);
       if (result['status'] == 'OK') {
         return result['predictions']
-            .map<Suggestion>(
-                (p) => Suggestion(p['place_id'], p['description']))
+            .map<Suggestion>((p) => Suggestion(p['place_id'], p['description']))
             .toList();
       }
       if (result['status'] == 'ZERO_RESULTS') {
