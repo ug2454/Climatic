@@ -217,9 +217,9 @@ class _LocationScreenState extends State<LocationScreen> {
                           children: [
                             Expanded(
                               child: TextField(
-                                textInputAction: TextInputAction.go,
                                 selectionWidthStyle: BoxWidthStyle.tight,
                                 controller: _controller,
+                                textInputAction: TextInputAction.newline,
                                 readOnly: true,
                                 onTap: () async {
                                   // typedCity = value;
@@ -227,9 +227,14 @@ class _LocationScreenState extends State<LocationScreen> {
                                   final Suggestion result = await showSearch(
                                       context: context,
                                       delegate: AddressSearch(sessionToken));
+                                  print(result);
 
                                   setState(() {
-                                    _controller.text = result.description;
+                                    if (result.description != null) {
+                                      _controller.text = result.description;
+                                      typedCity = _controller.text;
+                                    } else
+                                      _controller.text = '';
                                     typedCity = _controller.text;
                                   });
                                 },

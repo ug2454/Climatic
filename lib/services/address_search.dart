@@ -6,6 +6,10 @@ class AddressSearch extends SearchDelegate<Suggestion> {
     apiClient = PlaceApiProvider(sessionToken);
   }
 
+  @override
+  // TODO: implement textInputAction
+  TextInputAction get textInputAction => TextInputAction.none;
+
   final sessionToken;
   PlaceApiProvider apiClient;
 
