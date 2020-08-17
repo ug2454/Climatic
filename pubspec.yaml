@@ -19,6 +19,7 @@ dependencies:
   image_gallery_saver: ^1.5.0
   flutter_google_places: ^0.2.6
   uuid: ^2.2.0
+  upgrader: ^2.5.0
 
 dev_dependencies:
   flutter_test:

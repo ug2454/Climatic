@@ -88,8 +88,7 @@ class _LocationScreenState extends State<LocationScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(cityName);
-    print(DateTime.now().hour);
+
     updateUI(widget.locationWeather);
     updateHourlyData(widget.hourlyWeather);
   }
@@ -103,8 +102,7 @@ class _LocationScreenState extends State<LocationScreen> {
   void updateHourlyData(dynamic hourlyData) {
     hourlyDataList = hourlyData['list'];
     hourlySize = hourlyDataList.length;
-    print(hourlySize);
-    print(hourlyData['list'][0]);
+
     tempList.add(hourlyData['list'][0]['main']['temp']);
     for (int i = 0; i < hourlySize; i++) {
       tempList.add(hourlyData['list'][i]['main']['temp']);
@@ -113,7 +111,6 @@ class _LocationScreenState extends State<LocationScreen> {
       date = date.substring(11, 16);
       dateList.add(date);
     }
-    print(tempList);
   }
 
   void updateUI(dynamic weatherData) {
@@ -129,34 +126,30 @@ class _LocationScreenState extends State<LocationScreen> {
         maxTemp = 0;
         windSpeed = 0;
         humidity = 0;
-        //tempList = [];
-        //iconList = [];
-        //dateList = [];
-        //TODO: initialize all variables with appropriate values  done
-        //TODO: update the github readme.md  done
+
         return;
       }
       temperature = (weatherData['main']['temp']);
       newTemp = (temperature).toInt();
-      print('temp$newTemp');
+
       condition = weatherData['weather'][0]['id'];
       cityName = weatherData['name'];
       monthWord = monthValue[month];
       dayWord = weekday[day];
       getFeelsLike = weatherData['main']['feels_like'];
       feelsLike = getFeelsLike.toInt();
-      print('feels like$feelsLike');
+
       year = year;
-      print(year);
+
       visibility = weatherData['visibility'];
-      print(visibility);
+
       visibilityValue = visibility / 1000;
-      print(visibilityValue);
+
       pressure = weatherData['main']['pressure'];
       getMaxTemp = weatherData['main']['temp_max'];
-      print('getmaxtemp$getMaxTemp');
+
       maxTemp = getMaxTemp.toInt();
-      print(maxTemp);
+
       windSpeed = weatherData['wind']['speed'];
       humidity = weatherData['main']['humidity'];
 
@@ -267,24 +260,6 @@ class _LocationScreenState extends State<LocationScreen> {
                                       color: Color(0xFFc41a43),
                                     ),
                                   ),
-                                  // icon: GestureDetector(
-                                  //   onTap: () async {
-                                  //     var cityHourlyWeather =
-                                  //         await weatherModel.getHourlyWeather();
-                                  //     tempList = [];
-                                  //     iconList = [];
-                                  //     dateList = [];
-                                  //     updateHourlyData(cityHourlyWeather);
-                                  //     var weatherData = await weatherModel
-                                  //         .getLocationWeather();
-                                  //     updateUI(weatherData);
-                                  //   },
-                                  //   child: Icon(
-                                  //     Icons.search,
-                                  //     size: 40.0,
-                                  //     color: Color(0xFFc41a43),
-                                  //   ),
-                                  // ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(30.0),
@@ -495,96 +470,3 @@ class AlertBoxWidget extends StatelessWidget {
     );
   }
 }
-
-// @override
-// Widget build(BuildContext context) {
-//   return Scaffold(
-//     body: Container(
-//       decoration: BoxDecoration(
-//         image: DecorationImage(
-//           image: AssetImage('images/location_background.jpg'),
-//           fit: BoxFit.cover,
-//           colorFilter: ColorFilter.mode(
-//               Colors.white.withOpacity(0.8), BlendMode.dstATop),
-//         ),
-//       ),
-//       constraints: BoxConstraints.expand(),
-//       child: SafeArea(
-//         child: SingleChildScrollView(
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             crossAxisAlignment: CrossAxisAlignment.stretch,
-//             children: <Widget>[
-//               Row(
-//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                 children: <Widget>[
-//                   FlatButton(
-//                     onPressed: () async {
-//                       var weatherData =
-//                           await weatherModel.getLocationWeather();
-//                       updateUI(weatherData);
-//                     },
-//                     child: Icon(
-//                       Icons.near_me,
-//                       size: 50.0,
-//                     ),
-//                   ),
-//                   FlatButton(
-//                     onPressed: () async {
-//                       var typedCityName = await Navigator.push(
-//                         context,
-//                         MaterialPageRoute(
-//                           builder: (context) {
-//                             return CityScreen();
-//                           },
-//                         ),
-//                       );
-//                       if (typedCityName != null) {
-//                         var cityWeather =
-//                             await weatherModel.getCityWeather(typedCityName);
-//                         updateUI(cityWeather);
-//                       }
-//                     },
-//                     child: Icon(
-//                       Icons.location_city,
-//                       size: 50.0,
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//               SizedBox(
-//                 height: 100.0,
-//               ),
-//               Padding(
-//                 padding: EdgeInsets.only(left: 15.0),
-//                 child: Row(
-//                   children: <Widget>[
-//                     Text(
-//                       '$newTemp',
-//                       style: kTempTextStyle,
-//                     ),
-//                     Text(
-//                       '$weatherIcon',
-//                       style: kConditionTextStyle,
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//               SizedBox(
-//                 height: 120.0,
-//               ),
-//               Padding(
-//                 padding: EdgeInsets.only(right: 15.0),
-//                 child: Text(
-//                   '$msg in $cityName!',
-//                   textAlign: TextAlign.right,
-//                   style: kMessageTextStyle,
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     ),
-//   );
-// }

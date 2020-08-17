@@ -1,7 +1,7 @@
 import 'package:clima/screens/location_screen.dart';
 import 'package:clima/services/weather.dart';
 import 'package:flutter/material.dart';
-
+import 'package:upgrader/upgrader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -38,17 +38,18 @@ class _LoadingScreenState extends State<LoadingScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SpinKitCubeGrid(
-          color: Color(0xFFc41a43),
-          size: 100.0,
-          controller: AnimationController(
-            vsync: this,
-            duration: const Duration(milliseconds: 1200),
+      body: UpgradeAlert(
+              child: Center(
+          child: SpinKitCubeGrid(
+            color: Color(0xFFc41a43),
+            size: 100.0,
+            controller: AnimationController(
+              vsync: this,
+              duration: const Duration(milliseconds: 1200),
+            ),
           ),
         ),
       ),
     );
   }
 }
-
