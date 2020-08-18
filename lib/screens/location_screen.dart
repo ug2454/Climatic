@@ -9,7 +9,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:uuid/uuid.dart';
 
 const googleAPIKey = 'AIzaSyBVu6kY2gzNmzfXJP7noby7wDjuPiQg-ik';
@@ -185,6 +184,16 @@ class _LocationScreenState extends State<LocationScreen> {
         false;
   }
 
+  void searchCity() async {
+    var cityWeather = await weatherModel.getCityWeather(typedCity);
+    var cityHourlyWeather = await weatherModel.getCityHourlyWeather(typedCity);
+    updateUI(cityWeather);
+    tempList = [];
+    iconList = [];
+    dateList = [];
+    updateHourlyData(cityHourlyWeather);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -209,10 +218,11 @@ class _LocationScreenState extends State<LocationScreen> {
                         Row(
                           children: [
                             Expanded(
+                              flex: 6,
                               child: TextField(
-                                selectionWidthStyle: BoxWidthStyle.tight,
+                                // selectionWidthStyle: BoxWidthStyle.tight,
                                 controller: _controller,
-                                textInputAction: TextInputAction.newline,
+
                                 readOnly: true,
                                 onTap: () async {
                                   // typedCity = value;
@@ -223,12 +233,18 @@ class _LocationScreenState extends State<LocationScreen> {
                                   print(result);
 
                                   setState(() {
-                                    if (result.description != null) {
-                                      _controller.text = result.description;
-                                      typedCity = _controller.text;
-                                    } else
-                                      _controller.text = '';
-                                    typedCity = _controller.text;
+                                    try {
+                                      if (result.description != null) {
+                                        _controller.text = result.description;
+                                        typedCity = _controller.text;
+                                        searchCity();
+                                      } else {
+                                        _controller.text = '';
+                                        typedCity = _controller.text;
+                                      }
+                                    } catch (e) {
+                                      print(e);
+                                    }
                                   });
                                 },
                                 style: TextStyle(
@@ -243,22 +259,9 @@ class _LocationScreenState extends State<LocationScreen> {
                                   ),
                                   filled: true,
                                   fillColor: Colors.white,
-                                  prefixIcon: GestureDetector(
-                                    onTap: () async {
-                                      var cityHourlyWeather =
-                                          await weatherModel.getHourlyWeather();
-                                      tempList = [];
-                                      iconList = [];
-                                      dateList = [];
-                                      updateHourlyData(cityHourlyWeather);
-                                      var weatherData = await weatherModel
-                                          .getLocationWeather();
-                                      updateUI(weatherData);
-                                    },
-                                    child: Icon(
-                                      Icons.search,
-                                      color: Color(0xFFc41a43),
-                                    ),
+                                  prefixIcon: Icon(
+                                    Icons.search,
+                                    color: Color(0xFFc41a43),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.all(
@@ -279,32 +282,53 @@ class _LocationScreenState extends State<LocationScreen> {
                             const SizedBox(
                               width: 20.0,
                             ),
-                            FlatButton(
-                              color: colourChangeWithTime.getButtonColor(),
-                              padding: EdgeInsets.all(9.0),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                              onPressed: () async {
-                                if (typedCity != null) {
-                                  var cityWeather = await weatherModel
-                                      .getCityWeather(typedCity);
-                                  var cityHourlyWeather = await weatherModel
-                                      .getCityHourlyWeather(typedCity);
-                                  updateUI(cityWeather);
+                            Expanded(
+                              child: GestureDetector(
+                                //current weather location
+                                onTap: () async {
+                                  var cityHourlyWeather =
+                                      await weatherModel.getHourlyWeather();
                                   tempList = [];
                                   iconList = [];
                                   dateList = [];
                                   updateHourlyData(cityHourlyWeather);
-                                }
-                                FocusScope.of(context).unfocus();
-                                new TextEditingController().clear();
-                              },
-                              child: Text(
-                                'Search',
-                                style: kButtonTextStyle,
+                                  var weatherData =
+                                      await weatherModel.getLocationWeather();
+                                  updateUI(weatherData);
+                                },
+                                child: Icon(
+                                  Icons.place,
+                                  size: 40.0,
+                                  color: Color(0xFFc41a43),
+                                ),
                               ),
-                            )
+                            ),
+                            // FlatButton(
+                            //   color: colourChangeWithTime.getButtonColor(),
+                            //   padding: EdgeInsets.all(9.0),
+                            //   shape: RoundedRectangleBorder(
+                            //     borderRadius: BorderRadius.circular(30.0),
+                            //   ),
+                            //   onPressed: () async {
+                            //     if (typedCity != null) {
+                            //       var cityWeather = await weatherModel
+                            //           .getCityWeather(typedCity);
+                            //       var cityHourlyWeather = await weatherModel
+                            //           .getCityHourlyWeather(typedCity);
+                            //       updateUI(cityWeather);
+                            //       tempList = [];
+                            //       iconList = [];
+                            //       dateList = [];
+                            //       updateHourlyData(cityHourlyWeather);
+                            //     }
+                            //     FocusScope.of(context).unfocus();
+                            //     new TextEditingController().clear();
+                            //   },
+                            //   child: Text(
+                            //     'Search',
+                            //     style: kButtonTextStyle,
+                            //   ),
+                            // )
                           ],
                         ),
                         SizedBox(
