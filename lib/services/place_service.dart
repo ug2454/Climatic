@@ -22,22 +22,26 @@ class PlaceApiProvider {
   final sessionToken;
   static final String androidAPIKey = kAndroidAPIKey;
   Future<List<Suggestion>> fetchSuggestions(String input, String lang) async {
-    final request =
-        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&language=$lang&key=$androidAPIKey&sessiontoken=$sessionToken';
-    print(request);
-    final response = await client.get(request);
+    if (input.length > 2) {
+      final request =
+          'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&language=$lang&key=$androidAPIKey&sessiontoken=$sessionToken';
+      print(request);
+      final response = await client.get(request);
 
-    if (response.statusCode == 200) {
-      final result = json.decode(response.body);
-      if (result['status'] == 'OK') {
-        return result['predictions']
-            .map<Suggestion>((p) => Suggestion(p['place_id'], p['description']))
-            .toList();
+      if (response.statusCode == 200) {
+        final result = json.decode(response.body);
+        if (result['status'] == 'OK') {
+          return result['predictions']
+              .map<Suggestion>(
+                  (p) => Suggestion(p['place_id'], p['description']))
+              .toList();
+        }
+
+        if (result['status'] == 'ZERO_RESULTS') {
+          return [];
+        }
+        throw Exception(result['error_message']);
       }
-      if (result['status'] == 'ZERO_RESULTS') {
-        return [];
-      }
-      throw Exception(result['error_message']);
     } else {
       throw Exception('Failed to fetch suggestion');
     }
