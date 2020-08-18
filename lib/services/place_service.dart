@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:http/http.dart';
 import 'dart:convert';
+import 'package:clima/utilities/api.dart';
 
 class Suggestion {
   final String placeId;
@@ -19,7 +20,7 @@ class PlaceApiProvider {
   final client = Client();
   PlaceApiProvider(this.sessionToken);
   final sessionToken;
-  static final String androidAPIKey = 'AIzaSyA-VjN_0GLLFMiqqNz8fqFLPkL1atobEcw';
+  static final String androidAPIKey = kAndroidAPIKey;
   Future<List<Suggestion>> fetchSuggestions(String input, String lang) async {
     final request =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&language=$lang&key=$androidAPIKey&sessiontoken=$sessionToken';

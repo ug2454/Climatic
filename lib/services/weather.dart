@@ -3,13 +3,14 @@ import 'package:clima/services/networking.dart';
 import 'package:clima/utilities/colour_change_with_time.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttericon/meteocons_icons.dart';
+import 'package:clima/utilities/api.dart';
 
 const openWeatherMapURL = 'https://api.openweathermap.org/data/2.5/weather';
 const openWeatherForecastURL =
     'https://api.openweathermap.org/data/2.5/forecast';
 
 class WeatherModel {
-  static final String openWeatherAPIKey = 'a9f0de43f7ae80b8312ceb33a386b6b3';
+  static final String openWeatherAPIKey = kOpenWeatherAPIKey;
   ColourChangeWithTime _colourChangeWithTime = ColourChangeWithTime();
   Icon getWeatherIcon(int condition) {
     if (condition < 300) {

@@ -27,6 +27,7 @@
 .env*
 .pub-cache/
 .pub/
+*api.dart
 /build/
 
 # Android related
