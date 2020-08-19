@@ -24,7 +24,7 @@ class PlaceApiProvider {
   Future<List<Suggestion>> fetchSuggestions(String input, String lang) async {
     if (input.length > 2) {
       final request =
-          'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&language=$lang&key=$androidAPIKey&sessiontoken=$sessionToken';
+          'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&type=(cities)&language=$lang&key=$androidAPIKey&sessiontoken=$sessionToken';
       print(request);
       final response = await client.get(request);
 
