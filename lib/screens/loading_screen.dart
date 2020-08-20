@@ -1,3 +1,4 @@
+import 'package:clima/screens/expansion_panel_screen.dart';
 import 'package:clima/screens/location_screen.dart';
 import 'package:clima/services/weather.dart';
 import 'package:flutter/material.dart';
@@ -25,12 +26,17 @@ class _LoadingScreenState extends State<LoadingScreen>
     WeatherModel weatherModel = WeatherModel();
     var weatherData = await weatherModel.getLocationWeather();
     var hourlyData = await weatherModel.getHourlyWeather();
+    // Navigator.push(context, MaterialPageRoute(
+    //   builder: (context) {
+    //     return LocationScreen(
+    //       locationWeather: weatherData,
+    //       hourlyWeather: hourlyData,
+    //     );
+    //   },
+    // ));
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {
-        return LocationScreen(
-          locationWeather: weatherData,
-          hourlyWeather: hourlyData,
-        );
+        return ExpansionpanelScreen();
       },
     ));
   }
@@ -39,7 +45,7 @@ class _LoadingScreenState extends State<LoadingScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: UpgradeAlert(
-              child: Center(
+        child: Center(
           child: SpinKitCubeGrid(
             color: Color(0xFFc41a43),
             size: 100.0,

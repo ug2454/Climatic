@@ -278,6 +278,14 @@ class _LocationScreenState extends State<LocationScreen> {
                                       Icons.search,
                                       color: Color(0xFFc41a43),
                                     ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(30.0),
+                                      ),
+                                      borderSide: BorderSide(
+                                        color: Color(0xFFc41a43),
+                                      ),
+                                    ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.all(
                                         Radius.circular(30.0),
@@ -287,6 +295,9 @@ class _LocationScreenState extends State<LocationScreen> {
                                       ),
                                     ),
                                     border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color(0xFFc41a43),
+                                      ),
                                       borderRadius: BorderRadius.all(
                                         Radius.circular(30.0),
                                       ),
@@ -435,11 +446,18 @@ class _LocationScreenState extends State<LocationScreen> {
                         ],
                       ),
                       Container(
+                        margin: EdgeInsets.only(top: 30.0),
+                        height: 1.0,
+                        color: Color(0xFFc41a43),
+                        width: double.infinity,
+                      ),
+                      Container(
                         decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
-                            )),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10.0),
+                          ),
+                        ),
                         margin: EdgeInsets.symmetric(vertical: 20.0),
                         height: 100.0,
                         child: ListView.builder(
