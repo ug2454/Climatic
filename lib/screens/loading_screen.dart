@@ -26,19 +26,19 @@ class _LoadingScreenState extends State<LoadingScreen>
     WeatherModel weatherModel = WeatherModel();
     var weatherData = await weatherModel.getLocationWeather();
     var hourlyData = await weatherModel.getHourlyWeather();
-    // Navigator.push(context, MaterialPageRoute(
-    //   builder: (context) {
-    //     return LocationScreen(
-    //       locationWeather: weatherData,
-    //       hourlyWeather: hourlyData,
-    //     );
-    //   },
-    // ));
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {
-        return ExpansionpanelScreen();
+        return LocationScreen(
+          locationWeather: weatherData,
+          hourlyWeather: hourlyData,
+        );
       },
     ));
+    // Navigator.push(context, MaterialPageRoute(
+    //   builder: (context) {
+    //     return ExpansionpanelScreen();
+    //   },
+    // ));
   }
 
   @override

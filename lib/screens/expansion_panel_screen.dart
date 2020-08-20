@@ -19,7 +19,7 @@ List<Item> generateItems(int numberOfItems) {
       headerValue: Column(
         children: [
           SizedBox(
-            height: 20.0,
+            height: 30.0,
           ),
           Row(
             children: [
@@ -48,7 +48,7 @@ List<Item> generateItems(int numberOfItems) {
             ],
           ),
           SizedBox(
-            height: 20.0,
+            height: 30.0,
           ),
         ],
       ),
@@ -70,39 +70,45 @@ class _ExpansionpanelScreenState extends State<ExpansionpanelScreen> {
   List<Item> _data = generateItems(10);
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: SafeArea(
-        child: Container(
-          child: _buildPanel(),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Text('10 Days'),
+        centerTitle: true,
+        elevation: 2.0,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(Icons.arrow_back),
         ),
       ),
-    );
-  }
-
-  Widget _buildPanel() {
-    return ExpansionPanelList(
-      animationDuration: Duration(milliseconds: 500),
-      dividerColor: Color(0xFFc41a43),
-      expansionCallback: (int index, bool isExpanded) {
-        setState(() {
-          _data[index].isExpanded = !isExpanded;
-        });
-      },
-      children: _data.map<ExpansionPanel>((Item item) {
-        return ExpansionPanel(
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return ListTile(
-              title: item.headerValue,
-            );
+      body: ListView(children: [
+        ExpansionPanelList(
+          animationDuration: Duration(milliseconds: 500),
+          dividerColor: Color(0xFFc41a43),
+          expansionCallback: (int index, bool isExpanded) {
+            setState(() {
+              _data[index].isExpanded = !isExpanded;
+            });
           },
-          body: ListTile(
-            focusColor: Colors.blueAccent,
-            title: item.expandedValue,
-          ),
-          isExpanded: item.isExpanded,
-          canTapOnHeader: true,
-        );
-      }).toList(),
+          children: _data.map<ExpansionPanel>((Item item) {
+            return ExpansionPanel(
+              headerBuilder: (BuildContext context, bool isExpanded) {
+                return ListTile(
+                  title: item.headerValue,
+                );
+              },
+              body: ListTile(
+                focusColor: Colors.blueAccent,
+                title: item.expandedValue,
+              ),
+              isExpanded: item.isExpanded,
+              canTapOnHeader: true,
+            );
+          }).toList(),
+        ),
+      ]),
     );
   }
 }

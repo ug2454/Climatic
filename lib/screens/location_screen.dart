@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:clima/screens/expansion_panel_screen.dart';
 import 'package:clima/services/address_search.dart';
 import 'package:clima/services/place_service.dart';
 import 'package:clima/services/weather.dart';
@@ -9,7 +10,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
+import 'package:fluttericon/meteocons_icons.dart';
 import 'package:uuid/uuid.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 const googleAPIKey = 'AIzaSyBVu6kY2gzNmzfXJP7noby7wDjuPiQg-ik';
 
@@ -210,6 +214,30 @@ class _LocationScreenState extends State<LocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Text('Climatic'),
+        leading: Icon(Icons.menu),
+        elevation: 2.0,
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return ExpansionpanelScreen();
+                  },
+                ),
+              );
+            },
+            child: Icon(Meteocons.cloud_flash),
+          ),
+          SizedBox(
+            width: 10.0,
+          )
+        ],
+      ),
       backgroundColor: colourChangeWithTime.getContainerColor(),
       body: WillPopScope(
         onWillPop: _onBackPressed,
@@ -330,32 +358,6 @@ class _LocationScreenState extends State<LocationScreen> {
                                   ),
                                 ),
                               ),
-                              // FlatButton(
-                              //   color: colourChangeWithTime.getButtonColor(),
-                              //   padding: EdgeInsets.all(9.0),
-                              //   shape: RoundedRectangleBorder(
-                              //     borderRadius: BorderRadius.circular(30.0),
-                              //   ),
-                              //   onPressed: () async {
-                              //     if (typedCity != null) {
-                              //       var cityWeather = await weatherModel
-                              //           .getCityWeather(typedCity);
-                              //       var cityHourlyWeather = await weatherModel
-                              //           .getCityHourlyWeather(typedCity);
-                              //       updateUI(cityWeather);
-                              //       tempList = [];
-                              //       iconList = [];
-                              //       dateList = [];
-                              //       updateHourlyData(cityHourlyWeather);
-                              //     }
-                              //     FocusScope.of(context).unfocus();
-                              //     new TextEditingController().clear();
-                              //   },
-                              //   child: Text(
-                              //     'Search',
-                              //     style: kButtonTextStyle,
-                              //   ),
-                              // )
                             ],
                           ),
                           SizedBox(
@@ -444,12 +446,6 @@ class _LocationScreenState extends State<LocationScreen> {
                             bottomText: 'Humidity',
                           ),
                         ],
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 30.0),
-                        height: 1.0,
-                        color: Color(0xFFc41a43),
-                        width: double.infinity,
                       ),
                       Container(
                         decoration: BoxDecoration(
