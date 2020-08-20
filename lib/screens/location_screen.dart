@@ -112,6 +112,19 @@ class _LocationScreenState extends State<LocationScreen> {
     }
   }
 
+  Future<void> _data() async {
+    setState(() {
+      refreshData();
+    });
+  }
+
+  void refreshData() async {
+    setState(() {
+      updateUI(widget.locationWeather);
+      _controller.clear();
+    });
+  }
+
   void updateUI(dynamic weatherData) {
     setState(() {
       if (weatherData == null) {
@@ -206,263 +219,267 @@ class _LocationScreenState extends State<LocationScreen> {
           },
           child: Container(
             padding: EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
-              child: SafeArea(
-                child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 6,
-                              child: TextField(
-                                // selectionWidthStyle: BoxWidthStyle.tight,
-                                controller: _controller,
+            child: RefreshIndicator(
+              onRefresh: _data,
+              child: SingleChildScrollView(
+                child: SafeArea(
+                  child: Column(
+                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 6,
+                                child: TextField(
+                                  // selectionWidthStyle: BoxWidthStyle.tight,
+                                  controller: _controller,
 
-                                readOnly: true,
-                                onTap: () async {
-                                  // typedCity = value;
-                                  final sessionToken = Uuid().v4();
-                                  final Suggestion result = await showSearch(
-                                      context: context,
-                                      delegate: AddressSearch(sessionToken));
-                                  print(result);
+                                  readOnly: true,
+                                  onTap: () async {
+                                    // typedCity = value;
+                                    final sessionToken = Uuid().v4();
+                                    final Suggestion result = await showSearch(
+                                        context: context,
+                                        delegate: AddressSearch(sessionToken));
+                                    print(result);
 
-                                  setState(() {
-                                    try {
-                                      if (result.description != null) {
-                                        _controller.text = result.description;
-                                        typedCity = _controller.text;
-                                        searchCity();
-                                      } else {
-                                        _controller.text = '';
-                                        typedCity = _controller.text;
+                                    setState(() {
+                                      try {
+                                        if (result.description != null) {
+                                          _controller.text = result.description;
+                                          typedCity = _controller.text;
+                                          searchCity();
+                                        } else {
+                                          _controller.text = '';
+                                          typedCity = _controller.text;
+                                        }
+                                      } catch (e) {
+                                        print(e);
                                       }
-                                    } catch (e) {
-                                      print(e);
-                                    }
-                                  });
-                                },
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Poppins',
-                                ),
-                                decoration: InputDecoration(
-                                  hintText: 'Search city name',
-                                  contentPadding: EdgeInsets.all(10.0),
-                                  hintStyle: TextStyle(
-                                    color: Colors.grey,
+                                    });
+                                  },
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'Poppins',
                                   ),
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  prefixIcon: Icon(
-                                    Icons.search,
-                                    color: Color(0xFFc41a43),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(30.0),
+                                  decoration: InputDecoration(
+                                    hintText: 'Search city name',
+                                    contentPadding: EdgeInsets.all(10.0),
+                                    hintStyle: TextStyle(
+                                      color: Colors.grey,
                                     ),
-                                    borderSide: BorderSide(
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    prefixIcon: Icon(
+                                      Icons.search,
                                       color: Color(0xFFc41a43),
                                     ),
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(30.0),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(30.0),
+                                      ),
+                                      borderSide: BorderSide(
+                                        color: Color(0xFFc41a43),
+                                      ),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(30.0),
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(
-                              width: 20.0,
-                            ),
-                            Expanded(
-                              child: GestureDetector(
-                                //current weather location
-                                onTap: () async {
-                                  var cityHourlyWeather =
-                                      await weatherModel.getHourlyWeather();
-                                  tempList = [];
-                                  iconList = [];
-                                  dateList = [];
-                                  updateHourlyData(cityHourlyWeather);
-                                  var weatherData =
-                                      await weatherModel.getLocationWeather();
-                                  updateUI(weatherData);
-                                },
-                                child: Icon(
-                                  Icons.place,
-                                  size: 40.0,
-                                  color: Color(0xFFc41a43),
+                              const SizedBox(
+                                width: 20.0,
+                              ),
+                              Expanded(
+                                child: GestureDetector(
+                                  //current weather location
+                                  onTap: () async {
+                                    var cityHourlyWeather =
+                                        await weatherModel.getHourlyWeather();
+                                    tempList = [];
+                                    iconList = [];
+                                    dateList = [];
+                                    updateHourlyData(cityHourlyWeather);
+                                    var weatherData =
+                                        await weatherModel.getLocationWeather();
+                                    updateUI(weatherData);
+                                    _controller.clear();
+                                  },
+                                  child: Icon(
+                                    Icons.place,
+                                    size: 40.0,
+                                    color: Color(0xFFc41a43),
+                                  ),
                                 ),
                               ),
-                            ),
-                            // FlatButton(
-                            //   color: colourChangeWithTime.getButtonColor(),
-                            //   padding: EdgeInsets.all(9.0),
-                            //   shape: RoundedRectangleBorder(
-                            //     borderRadius: BorderRadius.circular(30.0),
-                            //   ),
-                            //   onPressed: () async {
-                            //     if (typedCity != null) {
-                            //       var cityWeather = await weatherModel
-                            //           .getCityWeather(typedCity);
-                            //       var cityHourlyWeather = await weatherModel
-                            //           .getCityHourlyWeather(typedCity);
-                            //       updateUI(cityWeather);
-                            //       tempList = [];
-                            //       iconList = [];
-                            //       dateList = [];
-                            //       updateHourlyData(cityHourlyWeather);
-                            //     }
-                            //     FocusScope.of(context).unfocus();
-                            //     new TextEditingController().clear();
-                            //   },
-                            //   child: Text(
-                            //     'Search',
-                            //     style: kButtonTextStyle,
-                            //   ),
-                            // )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        Text(
-                          '$cityName',
-                          style: kCityTextStyle,
-                          textAlign: TextAlign.left,
-                        ),
-                        Text(
-                          '$dayWord $date $monthWord $year',
-                          style: kDateTextStyle,
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 40.0,
-                    ),
-                    Container(
-                      child: Center(
-                        child: weatherModel.getWeatherIcon(condition),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '$newTemp',
-                          style: kTempTextStyle,
-                        ),
-                        Text(
-                          '°',
-                          style: TextStyle(
-                            fontSize: 40.0,
-                            color: colourChangeWithTime.getTempColor(),
+                              // FlatButton(
+                              //   color: colourChangeWithTime.getButtonColor(),
+                              //   padding: EdgeInsets.all(9.0),
+                              //   shape: RoundedRectangleBorder(
+                              //     borderRadius: BorderRadius.circular(30.0),
+                              //   ),
+                              //   onPressed: () async {
+                              //     if (typedCity != null) {
+                              //       var cityWeather = await weatherModel
+                              //           .getCityWeather(typedCity);
+                              //       var cityHourlyWeather = await weatherModel
+                              //           .getCityHourlyWeather(typedCity);
+                              //       updateUI(cityWeather);
+                              //       tempList = [];
+                              //       iconList = [];
+                              //       dateList = [];
+                              //       updateHourlyData(cityHourlyWeather);
+                              //     }
+                              //     FocusScope.of(context).unfocus();
+                              //     new TextEditingController().clear();
+                              //   },
+                              //   child: Text(
+                              //     'Search',
+                              //     style: kButtonTextStyle,
+                              //   ),
+                              // )
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20.0),
-                    Text(
-                      '$msg',
-                      style: kWeatherDescriptionTextStyle,
-                    ),
-                    SizedBox(
-                      height: 60.0,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        WeatherInfo(
-                          topText: '$feelsLike°',
-                          bottomText: 'Feels Like',
-                        ),
-                        WeatherInfo(
-                          topText: '$visibilityValue km',
-                          bottomText: 'Visibility',
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 50.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        WeatherInfo(
-                          topText: '$pressure hPa',
-                          bottomText: 'Pressure',
-                        ),
-                        WeatherInfo(
-                          topText: '$maxTemp°',
-                          bottomText: 'Max Temp',
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 50.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        WeatherInfo(
-                          topText: '$windSpeed km/hr',
-                          bottomText: 'Wind',
-                        ),
-                        WeatherInfo(
-                          topText: '$humidity%',
-                          bottomText: 'Humidity',
-                        ),
-                      ],
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10.0),
-                          )),
-                      margin: EdgeInsets.symmetric(vertical: 20.0),
-                      height: 100.0,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 9,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            width: 90.0,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  tempList[index].toInt().toString() + '°',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                Container(
-                                  height: 50.0,
-                                  width: 50.0,
-                                  child: Image(
-                                    image: NetworkImage(
-                                        '$weatherIconUrl${iconList[index]}@4x.png',
-                                        scale: 2),
-                                  ),
-                                ),
-                                Text(
-                                  dateList[index],
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                )
-                              ],
-                            ),
-                          );
-                        },
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          Text(
+                            '$cityName',
+                            style: kCityTextStyle,
+                            textAlign: TextAlign.left,
+                          ),
+                          Text(
+                            '$dayWord $date $monthWord $year',
+                            style: kDateTextStyle,
+                          )
+                        ],
                       ),
-                    )
-                  ],
+                      SizedBox(
+                        height: 40.0,
+                      ),
+                      Container(
+                        child: Center(
+                          child: weatherModel.getWeatherIcon(condition),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '$newTemp',
+                            style: kTempTextStyle,
+                          ),
+                          Text(
+                            '°',
+                            style: TextStyle(
+                              fontSize: 40.0,
+                              color: colourChangeWithTime.getTempColor(),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20.0),
+                      Text(
+                        '$msg',
+                        style: kWeatherDescriptionTextStyle,
+                      ),
+                      SizedBox(
+                        height: 60.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          WeatherInfo(
+                            topText: '$feelsLike°',
+                            bottomText: 'Feels Like',
+                          ),
+                          WeatherInfo(
+                            topText: '$visibilityValue km',
+                            bottomText: 'Visibility',
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 50.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          WeatherInfo(
+                            topText: '$pressure hPa',
+                            bottomText: 'Pressure',
+                          ),
+                          WeatherInfo(
+                            topText: '$maxTemp°',
+                            bottomText: 'Max Temp',
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 50.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          WeatherInfo(
+                            topText: '$windSpeed km/hr',
+                            bottomText: 'Wind',
+                          ),
+                          WeatherInfo(
+                            topText: '$humidity%',
+                            bottomText: 'Humidity',
+                          ),
+                        ],
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10.0),
+                            )),
+                        margin: EdgeInsets.symmetric(vertical: 20.0),
+                        height: 100.0,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 9,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              width: 90.0,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    tempList[index].toInt().toString() + '°',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 50.0,
+                                    width: 50.0,
+                                    child: Image(
+                                      image: NetworkImage(
+                                          '$weatherIconUrl${iconList[index]}@4x.png',
+                                          scale: 2),
+                                    ),
+                                  ),
+                                  Text(
+                                    dateList[index],
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
