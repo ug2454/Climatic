@@ -70,9 +70,9 @@ class _LocationScreenState extends State<LocationScreen> {
   List<int> dailyEpochDateList = [];
   List dailyDataList;
   int dailySize;
-  List<String> dailyWeekDayDateList = [];
+  List<int> dailyWeekDayDateList = [];
   List<int> dailyDayDateList = [];
-  List<String> dailyMonthDateList = [];
+  List<int> dailyMonthDateList = [];
 
   var weekday = {
     1: 'Monday',
@@ -106,8 +106,9 @@ class _LocationScreenState extends State<LocationScreen> {
 
     updateUI(widget.locationWeather);
     updateHourlyData(widget.hourlyWeather);
+    _data1 = generateItems(10);
     updateDailyData(widget.dailyWeather);
-    generateItems(10);
+
     String date =
         DateTime.fromMillisecondsSinceEpoch(1597991400 * 1000).day.toString();
     print(date);
@@ -139,7 +140,18 @@ class _LocationScreenState extends State<LocationScreen> {
           DateTime.fromMillisecondsSinceEpoch(dailyEpochDateList[i] * 1000)
               .day
               .toInt());
+      dailyWeekDayDateList.add(
+          DateTime.fromMillisecondsSinceEpoch(dailyEpochDateList[i] * 1000)
+              .weekday
+              .toInt());
+      dailyMonthDateList.add(
+          DateTime.fromMillisecondsSinceEpoch(dailyEpochDateList[i] * 1000)
+              .month
+              .toInt());
     }
+    print(dailyDayDateList);
+    print(dailyWeekDayDateList);
+    print(dailyMonthDateList);
   }
 
   void updateHourlyData(dynamic hourlyData) {
@@ -153,7 +165,6 @@ class _LocationScreenState extends State<LocationScreen> {
       String date = hourlyData['list'][i]['dt_txt'];
       date = date.substring(11, 16);
       dateList.add(date);
-      //TODO:
     }
   }
 
@@ -254,6 +265,7 @@ class _LocationScreenState extends State<LocationScreen> {
 
   List<Item> generateItems(int numberOfItems) {
     return List.generate(numberOfItems, (int index) {
+      
       return Item(
         headerValue: Column(
           children: [
@@ -263,24 +275,32 @@ class _LocationScreenState extends State<LocationScreen> {
             Row(
               children: [
                 Expanded(
-                  child: null,
+                  child: Container(
+                    height: 50.0,
+                    width: 50.0,
+                    child: Image(
+                      image: NetworkImage(
+                          '$weatherIconUrl${dailyIconList[index]}@4x.png',
+                          scale: 2),
+                    ),
+                  ),
                 ),
                 Expanded(
                   flex: 4,
                   child: Text(
-                    'Day $index',
+                    '${weekday[dailyWeekDayDateList[index]]}, ${dailyDayDateList[index]} ${monthValue[dailyMonthDateList[index]]}',
                     style: TextStyle(fontSize: 20.0),
                   ),
                 ),
                 Expanded(
                   child: Text(
-                    '23',
+                    '${dailyMinTempList[index]} °',
                     style: TextStyle(fontSize: 20.0),
                   ),
                 ),
                 Expanded(
                   child: Text(
-                    '24',
+                    '${dailyMaxTempList[index]} °',
                     style: TextStyle(fontSize: 20.0),
                   ),
                 ),

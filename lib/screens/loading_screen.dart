@@ -27,7 +27,7 @@ class _LoadingScreenState extends State<LoadingScreen>
     WeatherModel weatherModel = WeatherModel();
     var weatherData = await weatherModel.getLocationWeather();
     var hourlyData = await weatherModel.getHourlyWeather();
-    var dailyData = weatherModel.getDailyWeather();
+    var dailyData = await weatherModel.getDailyWeather();
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {
         return LocationScreen(
