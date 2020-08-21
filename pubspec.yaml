@@ -20,7 +20,7 @@ dependencies:
   flutter_google_places: ^0.2.6
   uuid: ^2.2.0
   upgrader: ^2.5.0
-  curved_navigation_bar: ^0.3.3
+  modal_progress_hud: ^0.1.3
 
 dev_dependencies:
   flutter_test:

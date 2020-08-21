@@ -1,3 +1,4 @@
+
 import 'package:clima/services/_location.dart';
 import 'package:clima/services/networking.dart';
 import 'package:clima/utilities/colour_change_with_time.dart';
@@ -108,6 +109,15 @@ class WeatherModel {
     await location.getCurrentLocation();
     NetworkHelper networkHelper = NetworkHelper(
         '$openWeatherDailyForecastURL?lat=${location.getLatitude()}&lon=${location.getLongitude()}&cnt=7&appid=$kOpenWeatherAPIKey&units=metric');
+    var weatherData = networkHelper.getData();
+    return weatherData;
+  }
+
+  Future<dynamic> getDailyWeatherCity(String cityName) async {
+    LocationCoordinates location = LocationCoordinates();
+    await location.getCurrentLocation();
+    NetworkHelper networkHelper = NetworkHelper(
+        '$openWeatherDailyForecastURL?q=$cityName?lat=${location.getLatitude()}&lon=${location.getLongitude()}&cnt=7&appid=$kOpenWeatherAPIKey&units=metric');
     var weatherData = networkHelper.getData();
     return weatherData;
   }
