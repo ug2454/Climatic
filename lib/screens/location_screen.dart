@@ -18,9 +18,10 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 const googleAPIKey = 'AIzaSyBVu6kY2gzNmzfXJP7noby7wDjuPiQg-ik';
 
 class LocationScreen extends StatefulWidget {
-  LocationScreen({this.locationWeather, this.hourlyWeather});
+  LocationScreen({this.locationWeather, this.hourlyWeather, this.dailyWeather});
   final locationWeather;
   final hourlyWeather;
+  final dailyWeather;
   @override
   _LocationScreenState createState() => _LocationScreenState();
 }
@@ -61,6 +62,17 @@ class _LocationScreenState extends State<LocationScreen> {
   String weatherIconUrl = 'http://openweathermap.org/img/wn/';
   List<String> iconList = [];
   List<String> dateList = [];
+  var dailyweather;
+  List<Item> _data1;
+  List dailyMinTempList = [];
+  List dailyMaxTempList = [];
+  List<String> dailyIconList = [];
+  List<int> dailyEpochDateList = [];
+  List dailyDataList;
+  int dailySize;
+  List<String> dailyWeekDayDateList = [];
+  List<int> dailyDayDateList = [];
+  List<String> dailyMonthDateList = [];
 
   var weekday = {
     1: 'Monday',
@@ -94,12 +106,40 @@ class _LocationScreenState extends State<LocationScreen> {
 
     updateUI(widget.locationWeather);
     updateHourlyData(widget.hourlyWeather);
+    updateDailyData(widget.dailyWeather);
+    generateItems(10);
+    String date =
+        DateTime.fromMillisecondsSinceEpoch(1597991400 * 1000).day.toString();
+    print(date);
+    String month =
+        DateTime.fromMillisecondsSinceEpoch(1597991400 * 1000).month.toString();
+    print(month);
+
+    String day = DateTime.fromMillisecondsSinceEpoch(1597991400 * 1000)
+        .weekday
+        .toString();
+    print(day);
   }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  void updateDailyData(dynamic dailyData) {
+    dailyDataList = dailyData['list'];
+    dailySize = dailyDataList.length;
+    for (int i = 0; i < dailySize; i++) {
+      dailyMinTempList.add(dailyData['list'][i]['temp']['min']);
+      dailyMaxTempList.add(dailyData['list'][i]['temp']['max']);
+      dailyIconList.add(dailyData['list'][i]['weather'][0]['icon']);
+      dailyEpochDateList.add(dailyData['list'][i]['dt']);
+      dailyDayDateList.add(
+          DateTime.fromMillisecondsSinceEpoch(dailyEpochDateList[i] * 1000)
+              .day
+              .toInt());
+    }
   }
 
   void updateHourlyData(dynamic hourlyData) {
@@ -113,6 +153,7 @@ class _LocationScreenState extends State<LocationScreen> {
       String date = hourlyData['list'][i]['dt_txt'];
       date = date.substring(11, 16);
       dateList.add(date);
+      //TODO:
     }
   }
 
@@ -211,33 +252,62 @@ class _LocationScreenState extends State<LocationScreen> {
     updateHourlyData(cityHourlyWeather);
   }
 
+  List<Item> generateItems(int numberOfItems) {
+    return List.generate(numberOfItems, (int index) {
+      return Item(
+        headerValue: Column(
+          children: [
+            SizedBox(
+              height: 30.0,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: null,
+                ),
+                Expanded(
+                  flex: 4,
+                  child: Text(
+                    'Day $index',
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    '23',
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    '24',
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 30.0,
+            ),
+          ],
+        ),
+        expandedValue: Column(
+          children: [
+            Row(
+              children: [Text('Precipitation'), Text('Wind')],
+            ),
+            Row(
+              children: [Text('Humidity'), Text('Pressure')],
+            )
+          ],
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text('Climatic'),
-        leading: Icon(Icons.menu),
-        elevation: 2.0,
-        actions: [
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return ExpansionpanelScreen();
-                  },
-                ),
-              );
-            },
-            child: Icon(Meteocons.cloud_flash),
-          ),
-          SizedBox(
-            width: 10.0,
-          )
-        ],
-      ),
       backgroundColor: colourChangeWithTime.getContainerColor(),
       body: WillPopScope(
         onWillPop: _onBackPressed,
@@ -491,7 +561,34 @@ class _LocationScreenState extends State<LocationScreen> {
                             );
                           },
                         ),
-                      )
+                      ),
+                      Column(children: [
+                        ExpansionPanelList(
+                          animationDuration: Duration(milliseconds: 500),
+                          dividerColor: Colors.grey.shade100,
+                          expansionCallback: (int index, bool isExpanded) {
+                            setState(() {
+                              _data1[index].isExpanded = !isExpanded;
+                            });
+                          },
+                          children: _data1.map<ExpansionPanel>((Item item) {
+                            return ExpansionPanel(
+                              headerBuilder:
+                                  (BuildContext context, bool isExpanded) {
+                                return ListTile(
+                                  title: item.headerValue,
+                                );
+                              },
+                              body: ListTile(
+                                focusColor: Colors.blueAccent,
+                                title: item.expandedValue,
+                              ),
+                              isExpanded: item.isExpanded,
+                              canTapOnHeader: true,
+                            );
+                          }).toList(),
+                        ),
+                      ]),
                     ],
                   ),
                 ),
@@ -524,4 +621,12 @@ class AlertBoxWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+class Item {
+  bool isExpanded;
+  Widget headerValue;
+  Widget expandedValue;
+
+  Item({this.isExpanded = false, this.headerValue, this.expandedValue});
 }

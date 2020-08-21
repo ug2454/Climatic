@@ -9,6 +9,9 @@ const openWeatherMapURL = 'https://api.openweathermap.org/data/2.5/weather';
 const openWeatherForecastURL =
     'https://api.openweathermap.org/data/2.5/forecast';
 
+const openWeatherDailyForecastURL =
+    'http://api.openweathermap.org/data/2.5/forecast/daily';
+
 class WeatherModel {
   static final String openWeatherAPIKey = kOpenWeatherAPIKey;
   ColourChangeWithTime _colourChangeWithTime = ColourChangeWithTime();
@@ -96,6 +99,15 @@ class WeatherModel {
     await location.getCurrentLocation();
     NetworkHelper networkHelper = NetworkHelper(
         '$openWeatherForecastURL?q=$cityName&appid=$openWeatherAPIKey&units=metric');
+    var weatherData = networkHelper.getData();
+    return weatherData;
+  }
+
+  Future<dynamic> getDailyWeather() async {
+    LocationCoordinates location = LocationCoordinates();
+    await location.getCurrentLocation();
+    NetworkHelper networkHelper = NetworkHelper(
+        '$openWeatherDailyForecastURL?lat=${location.getLatitude()}&lon=${location.getLongitude()}&cnt=10&appid=$kOpenWeatherAPIKey&units=metric');
     var weatherData = networkHelper.getData();
     return weatherData;
   }
