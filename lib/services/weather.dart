@@ -107,7 +107,7 @@ class WeatherModel {
     LocationCoordinates location = LocationCoordinates();
     await location.getCurrentLocation();
     NetworkHelper networkHelper = NetworkHelper(
-        '$openWeatherDailyForecastURL?lat=${location.getLatitude()}&lon=${location.getLongitude()}&cnt=10&appid=$kOpenWeatherAPIKey&units=metric');
+        '$openWeatherDailyForecastURL?lat=${location.getLatitude()}&lon=${location.getLongitude()}&cnt=7&appid=$kOpenWeatherAPIKey&units=metric');
     var weatherData = networkHelper.getData();
     return weatherData;
   }

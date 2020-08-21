@@ -66,6 +66,8 @@ class _LocationScreenState extends State<LocationScreen> {
   List<Item> _data1;
   List dailyMinTempList = [];
   List dailyMaxTempList = [];
+  List dailyMinTempListInt = [];
+  List dailyMaxTempListInt = [];
   List<String> dailyIconList = [];
   List<int> dailyEpochDateList = [];
   List dailyDataList;
@@ -73,6 +75,10 @@ class _LocationScreenState extends State<LocationScreen> {
   List<int> dailyWeekDayDateList = [];
   List<int> dailyDayDateList = [];
   List<int> dailyMonthDateList = [];
+  List dailyHumidity = [];
+  List dailyDescription = [];
+  List dailyPressure = [];
+  List dailyFeelslike = [];
 
   var weekday = {
     1: 'Monday',
@@ -84,19 +90,28 @@ class _LocationScreenState extends State<LocationScreen> {
     7: 'Sunday'
   };
 
+  var weekday1 = {
+    1: 'Mon',
+    2: 'Tue',
+    3: 'Wed',
+    4: 'Thu',
+    5: 'Fri',
+    6: 'Sat',
+    7: 'Sun'
+  };
   var monthValue = {
-    1: 'January',
-    2: 'February',
-    3: 'March',
-    4: 'April',
+    1: 'Jan',
+    2: 'Feb',
+    3: 'Mar',
+    4: 'Apr',
     5: 'May',
-    6: 'June',
-    7: 'July',
-    8: 'August',
-    9: 'September',
-    10: 'October',
-    11: 'November',
-    12: 'December'
+    6: 'Jun',
+    7: 'Jul',
+    8: 'Aug',
+    9: 'Sep',
+    10: 'Oct',
+    11: 'Nov',
+    12: 'Dec'
   };
 
   @override
@@ -106,20 +121,8 @@ class _LocationScreenState extends State<LocationScreen> {
 
     updateUI(widget.locationWeather);
     updateHourlyData(widget.hourlyWeather);
-    _data1 = generateItems(10);
     updateDailyData(widget.dailyWeather);
-
-    String date =
-        DateTime.fromMillisecondsSinceEpoch(1597991400 * 1000).day.toString();
-    print(date);
-    String month =
-        DateTime.fromMillisecondsSinceEpoch(1597991400 * 1000).month.toString();
-    print(month);
-
-    String day = DateTime.fromMillisecondsSinceEpoch(1597991400 * 1000)
-        .weekday
-        .toString();
-    print(day);
+    _data1 = generateItems(7);
   }
 
   @override
@@ -133,7 +136,9 @@ class _LocationScreenState extends State<LocationScreen> {
     dailySize = dailyDataList.length;
     for (int i = 0; i < dailySize; i++) {
       dailyMinTempList.add(dailyData['list'][i]['temp']['min']);
+
       dailyMaxTempList.add(dailyData['list'][i]['temp']['max']);
+
       dailyIconList.add(dailyData['list'][i]['weather'][0]['icon']);
       dailyEpochDateList.add(dailyData['list'][i]['dt']);
       dailyDayDateList.add(
@@ -148,10 +153,11 @@ class _LocationScreenState extends State<LocationScreen> {
           DateTime.fromMillisecondsSinceEpoch(dailyEpochDateList[i] * 1000)
               .month
               .toInt());
+      dailyHumidity.add(dailyData['list'][i]['humidity']);
+      dailyDescription.add(dailyData['list'][i]['weather'][0]['main']);
+      dailyPressure.add(dailyData['list'][i]['pressure']);
+      dailyFeelslike.add(dailyData['list'][i]['feels_like']['day']);
     }
-    print(dailyDayDateList);
-    print(dailyWeekDayDateList);
-    print(dailyMonthDateList);
   }
 
   void updateHourlyData(dynamic hourlyData) {
@@ -265,14 +271,14 @@ class _LocationScreenState extends State<LocationScreen> {
 
   List<Item> generateItems(int numberOfItems) {
     return List.generate(numberOfItems, (int index) {
-      
       return Item(
         headerValue: Column(
           children: [
             SizedBox(
-              height: 30.0,
+              height: 10.0,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Expanded(
                   child: Container(
@@ -285,40 +291,110 @@ class _LocationScreenState extends State<LocationScreen> {
                     ),
                   ),
                 ),
+                SizedBox(
+                  width: 20.0,
+                ),
                 Expanded(
-                  flex: 4,
+                  flex: 3,
                   child: Text(
-                    '${weekday[dailyWeekDayDateList[index]]}, ${dailyDayDateList[index]} ${monthValue[dailyMonthDateList[index]]}',
-                    style: TextStyle(fontSize: 20.0),
+                    '${weekday1[dailyWeekDayDateList[index]]}, ${dailyDayDateList[index]} ${monthValue[dailyMonthDateList[index]]}',
+                    style: kExpansionPanelTextStyle,
                   ),
                 ),
                 Expanded(
                   child: Text(
-                    '${dailyMinTempList[index]} °',
-                    style: TextStyle(fontSize: 20.0),
+                    '${dailyMinTempList[index].toInt()}°',
+                    style: kExpansionPanelTextStyle,
                   ),
                 ),
                 Expanded(
                   child: Text(
-                    '${dailyMaxTempList[index]} °',
-                    style: TextStyle(fontSize: 20.0),
+                    '${dailyMaxTempList[index].toInt()}°',
+                    style: kExpansionPanelTextStyle,
                   ),
                 ),
               ],
             ),
             SizedBox(
-              height: 30.0,
+              height: 10.0,
             ),
           ],
         ),
         expandedValue: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Row(
-              children: [Text('Precipitation'), Text('Wind')],
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'Humidity',
+                    style: kExpansionPanelTextStyle,
+                  ),
+                  SizedBox(
+                    width: 38.0,
+                  ),
+                  Text(
+                    '${dailyHumidity[index]}%',
+                    style: kExpansionPanelTextStyle,
+                  ),
+                ],
+              ),
             ),
-            Row(
-              children: [Text('Humidity'), Text('Pressure')],
-            )
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'Description',
+                    style: kExpansionPanelTextStyle,
+                  ),
+                  SizedBox(
+                    width: 20.0,
+                  ),
+                  Text(
+                    '${dailyDescription[index]}',
+                    style: kExpansionPanelTextStyle,
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'Pressure',
+                    style: kExpansionPanelTextStyle,
+                  ),
+                  SizedBox(
+                    width: 45.0,
+                  ),
+                  Text(
+                    '${dailyPressure[index]} hPa',
+                    style: kExpansionPanelTextStyle,
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'Feels Like',
+                    style: kExpansionPanelTextStyle,
+                  ),
+                  SizedBox(
+                    width: 30.0,
+                  ),
+                  Text(
+                    '${dailyFeelslike[index]}°',
+                    style: kExpansionPanelTextStyle,
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       );
