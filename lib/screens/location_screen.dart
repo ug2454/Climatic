@@ -159,12 +159,7 @@ class _LocationScreenState extends State<LocationScreen>
       dailyDescription.add(dailyData['list'][i]['weather'][0]['main']);
       dailyPressure.add(dailyData['list'][i]['pressure']);
       dailyFeelslike.add(dailyData['list'][i]['feels_like']['day']);
-
-      print(dailyData['city']['name']);
     }
-    setState(() {
-      showSpinner = false;
-    });
   }
 
   void updateHourlyData(dynamic hourlyData) {
@@ -179,9 +174,6 @@ class _LocationScreenState extends State<LocationScreen>
       date = date.substring(11, 16);
       dateList.add(date);
     }
-    setState(() {
-      showSpinner = false;
-    });
   }
 
   Future<void> _data() async {
@@ -193,6 +185,24 @@ class _LocationScreenState extends State<LocationScreen>
   void refreshData() async {
     setState(() {
       updateUI(widget.locationWeather);
+      tempList = [];
+      iconList = [];
+      dateList = [];
+      updateHourlyData(widget.hourlyWeather);
+
+      dailyIconList = [];
+      dailyDescription = [];
+      dailyFeelslike = [];
+      dailyHumidity = [];
+      dailyMaxTempList = [];
+      dailyMinTempList = [];
+      dailyDayDateList = [];
+      dailyMonthDateList = [];
+      dailyPressure = [];
+      dailyWeekDayDateList = [];
+
+      updateDailyData(widget.dailyWeather);
+      _data1 = generateItems(7);
       _controller.clear();
     });
   }
@@ -240,8 +250,7 @@ class _LocationScreenState extends State<LocationScreen>
       msg = weatherData['weather'][0]['main'];
 
       weatherIcon = weatherModel.getWeatherIcon(condition);
-    });
-    setState(() {
+
       showSpinner = false;
     });
   }
@@ -490,7 +499,6 @@ class _LocationScreenState extends State<LocationScreen>
                                               context: context,
                                               delegate:
                                                   AddressSearch(sessionToken));
-                                      print(result);
 
                                       setState(() {
                                         setState(() {
@@ -561,36 +569,7 @@ class _LocationScreenState extends State<LocationScreen>
                                   child: GestureDetector(
                                     //current weather location
                                     onTap: () async {
-                                      setState(() {
-                                        showSpinner = true;
-                                      });
-                                      var cityHourlyWeather =
-                                          await weatherModel.getHourlyWeather();
-                                      tempList = [];
-                                      iconList = [];
-                                      dateList = [];
-                                      updateHourlyData(cityHourlyWeather);
-                                      var weatherData = await weatherModel
-                                          .getLocationWeather();
-                                      updateUI(weatherData);
-                                      _controller.clear();
-                                      var dailyWeatherData =
-                                          await weatherModel.getDailyWeather();
-
-                                      dailyIconList = [];
-                                      dailyDescription = [];
-                                      dailyFeelslike = [];
-                                      dailyHumidity = [];
-                                      dailyMaxTempList = [];
-                                      dailyMinTempList = [];
-                                      dailyDayDateList = [];
-                                      dailyMonthDateList = [];
-                                      dailyPressure = [];
-                                      dailyWeekDayDateList = [];
-                                      updateDailyData(dailyWeatherData);
-                                      setState(() {
-                                        _data1 = generateItems(7);
-                                      });
+                                      refreshData();
                                     },
                                     child: Icon(
                                       Icons.place,
