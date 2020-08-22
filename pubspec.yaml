@@ -1,7 +1,7 @@
 name: clima
 description: A new Flutter application.
 
-version: 3.0.0+9
+version: 3.0.1+10
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
