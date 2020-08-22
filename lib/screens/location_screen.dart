@@ -492,7 +492,7 @@ class _LocationScreenState extends State<LocationScreen>
 
                                     readOnly: true,
                                     onTap: () async {
-                                      // typedCity = value;
+                                      // TODO: filter the name till first comma to avoid error
                                       final sessionToken = Uuid().v4();
                                       final Suggestion result =
                                           await showSearch(
