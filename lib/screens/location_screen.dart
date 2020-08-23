@@ -57,6 +57,7 @@ class _LocationScreenState extends State<LocationScreen>
   int humidity;
   double visibilityValue;
   String typedCity;
+  String newTypedCity;
   List<String> items = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
   List hourlyDataList;
   int hourlySize;
@@ -282,9 +283,10 @@ class _LocationScreenState extends State<LocationScreen>
   }
 
   void searchCity() async {
-    var cityWeather = await weatherModel.getCityWeather(typedCity);
-    var cityHourlyWeather = await weatherModel.getCityHourlyWeather(typedCity);
-    var cityDailyWeather = await weatherModel.getDailyWeatherCity(typedCity);
+    var cityWeather = await weatherModel.getCityWeather(newTypedCity);
+    var cityHourlyWeather =
+        await weatherModel.getCityHourlyWeather(newTypedCity);
+    var cityDailyWeather = await weatherModel.getDailyWeatherCity(newTypedCity);
     updateUI(cityWeather);
     tempList = [];
     iconList = [];
@@ -501,18 +503,22 @@ class _LocationScreenState extends State<LocationScreen>
                                                   AddressSearch(sessionToken));
 
                                       setState(() {
-                                        setState(() {
-                                          showSpinner = true;
-                                        });
                                         try {
                                           if (result.description != null) {
+                                            setState(() {
+                                              showSpinner = true;
+                                            });
                                             _controller.text =
                                                 result.description;
                                             typedCity = _controller.text;
+                                            print(typedCity);
+                                            newTypedCity = typedCity.substring(
+                                                0, typedCity.indexOf(','));
+
                                             searchCity();
                                           } else {
                                             _controller.text = '';
-                                            typedCity = _controller.text;
+                                            newTypedCity = _controller.text;
                                           }
                                         } catch (e) {
                                           print(e);
