@@ -283,10 +283,9 @@ class _LocationScreenState extends State<LocationScreen>
   }
 
   void searchCity() async {
-    var cityWeather = await weatherModel.getCityWeather(newTypedCity);
-    var cityHourlyWeather =
-        await weatherModel.getCityHourlyWeather(newTypedCity);
-    var cityDailyWeather = await weatherModel.getDailyWeatherCity(newTypedCity);
+    var cityWeather = await weatherModel.getCityWeather(typedCity);
+    var cityHourlyWeather = await weatherModel.getCityHourlyWeather(typedCity);
+    var cityDailyWeather = await weatherModel.getDailyWeatherCity(typedCity);
     updateUI(cityWeather);
     tempList = [];
     iconList = [];
@@ -505,20 +504,37 @@ class _LocationScreenState extends State<LocationScreen>
                                       setState(() {
                                         try {
                                           if (result.description != null) {
+                                            print('result description' +
+                                                result.description);
                                             setState(() {
                                               showSpinner = true;
                                             });
                                             _controller.text =
                                                 result.description;
-                                            typedCity = _controller.text;
-                                            print(typedCity);
-                                            newTypedCity = typedCity.substring(
-                                                0, typedCity.indexOf(','));
+
+                                            if (_controller.text
+                                                .contains(',')) {
+                                              typedCity = _controller.text
+                                                  .substring(
+                                                      0,
+                                                      _controller.text
+                                                          .indexOf(','));
+                                            } else if (_controller.text
+                                                .contains('-')) {
+                                              typedCity = _controller.text
+                                                  .substring(
+                                                      0,
+                                                      _controller.text
+                                                          .indexOf('-'));
+                                            } else {
+                                              typedCity = _controller.text;
+                                            }
+                                            print('typedcity' + typedCity);
 
                                             searchCity();
                                           } else {
                                             _controller.text = '';
-                                            newTypedCity = _controller.text;
+                                            typedCity = _controller.text;
                                           }
                                         } catch (e) {
                                           print(e);
