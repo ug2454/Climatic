@@ -29,16 +29,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
           onTap: () {
             Navigator.push(context, MaterialPageRoute(
               builder: (context) {
-                return LoadingScreen(isDarkModeEnabled: isDarkModeEnabled);
+                return LoadingScreen();
               },
             ));
           },
-          child: Icon(Icons.arrow_back),
+          child: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
         ),
       ),
       body: SafeArea(
         child: SwitchListTile(
-            value: isDarkModeEnabled,
+            value: themeChange.darkTheme,
             activeColor: Color(0xFFc41a43),
             title: Text(
               'Dark Mode',

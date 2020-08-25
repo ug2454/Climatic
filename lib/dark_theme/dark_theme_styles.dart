@@ -14,9 +14,28 @@ class Styles {
       focusColor: isDarkTheme ? Color(0xff0B2512) : Color(0xffA8DAB5),
       disabledColor: Colors.grey,
       textSelectionColor: isDarkTheme ? Colors.white : Colors.black,
-      cardColor: isDarkTheme ? Color(0xFF151515) : Colors.white,
+      cardColor: isDarkTheme ? Colors.white : Colors.white,
       canvasColor: isDarkTheme ? Colors.black : Colors.grey[50],
       brightness: isDarkTheme ? Brightness.dark : Brightness.light,
+      primaryIconTheme: isDarkTheme
+          ? IconThemeData(color: Colors.white)
+          : IconThemeData(color: Colors.white),
+      textTheme: isDarkTheme
+          ? TextTheme(
+              bodyText2: TextStyle(
+                color: Colors.white,
+                fontFamily: 'Poppins',
+              ),
+            )
+          : TextTheme(
+              bodyText2: TextStyle(
+                color: Colors.black,
+                fontFamily: 'Poppins',
+              ),
+              subtitle1: isDarkTheme
+                  ? TextStyle(color: Colors.black)
+                  : TextStyle(color: Colors.white),
+            ),
     );
   }
 }

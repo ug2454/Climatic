@@ -8,10 +8,11 @@ LocationScreen locationScreen = LocationScreen();
 WeatherModel weatherModel = WeatherModel();
 
 var kTempTextStyle = TextStyle(
-    fontFamily: 'Poppins',
-    fontSize: 100.0,
-    fontWeight: FontWeight.w200,
-    color: _colourChangeWithTime.getTempColor());
+  fontFamily: 'Poppins',
+  fontSize: 100.0,
+  fontWeight: FontWeight.w200,
+  // color: _colourChangeWithTime.getTempColor(),
+);
 
 const kMessageTextStyle = TextStyle(
   fontFamily: 'Spartan MB',
@@ -29,7 +30,7 @@ const kConditionTextStyle = TextStyle(
 );
 
 var kCityTextStyle = TextStyle(
-  color: _colourChangeWithTime.getCityTextColor(),
+  // color: _colourChangeWithTime.getCityTextColor(),
   fontFamily: 'Poppins',
   fontSize: 40.0,
 );
@@ -55,7 +56,5 @@ const kAlertBoxDecoration = BoxDecoration(color: Colors.blueAccent, boxShadow: [
 
 const kAlertBoxTextStyle = TextStyle(color: Colors.white, fontSize: 17.0);
 
-const kExpansionPanelTextStyle = TextStyle(
-  fontSize: 15.0,
-  fontFamily: 'Poppins',
-);
+const kExpansionPanelTextStyle =
+    TextStyle(fontSize: 15.0, fontFamily: 'Poppins', color: Colors.black);

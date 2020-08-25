@@ -11,9 +11,6 @@ var hourlyData;
 var dailyData;
 
 class LoadingScreen extends StatefulWidget {
-  final bool isDarkModeEnabled;
-
-  const LoadingScreen({this.isDarkModeEnabled});
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
 }
@@ -43,7 +40,6 @@ class _LoadingScreenState extends State<LoadingScreen>
             locationWeather: weatherData,
             hourlyWeather: hourlyData,
             dailyWeather: dailyData,
-            isDarkModeEnabled:widget.isDarkModeEnabled
           );
         },
       ),

@@ -10,6 +10,11 @@ class AddressSearch extends SearchDelegate<Suggestion> {
   // TODO: implement textInputAction
   TextInputAction get textInputAction => TextInputAction.none;
 
+@override
+// TODO: implement searchFieldStyle
+  TextStyle get searchFieldStyle => TextStyle(color: Colors.black);
+  
+
   final sessionToken;
   PlaceApiProvider apiClient;
 

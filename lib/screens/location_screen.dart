@@ -472,13 +472,16 @@ class _LocationScreenState extends State<LocationScreen>
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
-              child: Center(
-                child: Text(
-                  'Climatic',
-                  style: kCityTextStyle.copyWith(
-                    fontSize: 20.0,
-                    color: Color(0xFFc41a43),
+            Container(
+              color: Colors.white,
+              child: DrawerHeader(
+                child: Center(
+                  child: Text(
+                    'Climatic',
+                    style: kCityTextStyle.copyWith(
+                      fontSize: 20.0,
+                      color: Color(0xFFc41a43),
+                    ),
                   ),
                 ),
               ),
@@ -487,10 +490,7 @@ class _LocationScreenState extends State<LocationScreen>
               leading: Icon(Icons.settings),
               title: Text(
                 'Settings',
-                style: kCityTextStyle.copyWith(
-                  fontSize: 20.0,
-                  color: Color(0xFFc41a43),
-                ),
+                style: Theme.of(context).textTheme.bodyText2,
               ),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(
@@ -503,7 +503,7 @@ class _LocationScreenState extends State<LocationScreen>
           ],
         ),
       ),
-      backgroundColor: colourChangeWithTime.getContainerColor(),
+      // backgroundColor: colourChangeWithTime.getContainerColor(),
       body: ModalProgressHUD(
         progressIndicator: SpinKitCubeGrid(
           color: colourChangeWithTime.getCityTextColor(),
@@ -685,7 +685,7 @@ class _LocationScreenState extends State<LocationScreen>
                               '°',
                               style: TextStyle(
                                 fontSize: 40.0,
-                                color: colourChangeWithTime.getTempColor(),
+                                // color: colourChangeWithTime.getTempColor(),
                               ),
                             ),
                           ],

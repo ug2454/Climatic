@@ -18,7 +18,7 @@ class WeatherInfo extends StatelessWidget {
           style: TextStyle(
             fontSize: 17.0,
             fontWeight: FontWeight.bold,
-            color: _colourChangeWithTime.getTempColor(),
+            // color: _colourChangeWithTime.getTempColor(),
           ),
         ),
         Text(
