@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:clima/screens/expansion_panel_screen.dart';
+import 'package:clima/screens/settings_screen.dart';
 import 'package:clima/services/address_search.dart';
 import 'package:clima/services/place_service.dart';
 import 'package:clima/services/weather.dart';
@@ -453,6 +454,47 @@ class _LocationScreenState extends State<LocationScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Text(
+          'Climatic',
+          style: kCityTextStyle.copyWith(fontSize: 20.0, color: Colors.white),
+        ),
+      ),
+      drawer: Drawer(
+        elevation: 5.0,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              child: Center(
+                child: Text(
+                  'Climatic',
+                  style: kCityTextStyle.copyWith(
+                    fontSize: 20.0,
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                'Settings',
+                style: kCityTextStyle.copyWith(
+                  fontSize: 20.0,
+                  color: 
+                ),
+              ),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return SettingsScreen();
+                  },
+                ));
+              },
+            )
+          ],
+        ),
+      ),
       backgroundColor: colourChangeWithTime.getContainerColor(),
       body: ModalProgressHUD(
         progressIndicator: SpinKitCubeGrid(

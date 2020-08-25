@@ -6,6 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+var weatherData;
+var hourlyData;
+var dailyData;
+
 class LoadingScreen extends StatefulWidget {
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
@@ -25,18 +29,10 @@ class _LoadingScreenState extends State<LoadingScreen>
 
   Future getLocationData() async {
     WeatherModel weatherModel = WeatherModel();
-    var weatherData = await weatherModel.getLocationWeather();
-    var hourlyData = await weatherModel.getHourlyWeather();
-    var dailyData = await weatherModel.getDailyWeather();
-    Navigator.push(context, MaterialPageRoute(
-      builder: (context) {
-        return LocationScreen(
-          locationWeather: weatherData,
-          hourlyWeather: hourlyData,
-          dailyWeather: dailyData,
-        );
-      },
-    ));
+    weatherData = await weatherModel.getLocationWeather();
+    hourlyData = await weatherModel.getHourlyWeather();
+    dailyData = await weatherModel.getDailyWeather();
+    Navigator.of(context).push(_createRoute());
     // Navigator.push(context, MaterialPageRoute(
     //   builder: (context) {
     //     return ExpansionpanelScreen();
@@ -46,8 +42,17 @@ class _LoadingScreenState extends State<LoadingScreen>
 
   @override
   Widget build(BuildContext context) {
+    final appcastURL =
+        'https://raw.githubusercontent.com/larryaasen/upgrader/master/test/testappcast.xml';
+    final cfg = AppcastConfiguration(url: appcastURL, supportedOS: ['android']);
+
     return Scaffold(
       body: UpgradeAlert(
+        showIgnore: true,
+        showLater: true,
+        appcastConfig: cfg,
+        debugLogging: true,
+        
         child: Center(
           child: SpinKitCubeGrid(
             color: Color(0xFFc41a43),
@@ -61,4 +66,28 @@ class _LoadingScreenState extends State<LoadingScreen>
       ),
     );
   }
+}
+
+Route _createRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) {
+      return LocationScreen(
+        locationWeather: weatherData,
+        hourlyWeather: hourlyData,
+        dailyWeather: dailyData,
+      );
+    },
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      var begin = Offset(0.0, 1.0);
+      var end = Offset.zero;
+      var curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
 }
