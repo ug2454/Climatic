@@ -11,6 +11,9 @@ var hourlyData;
 var dailyData;
 
 class LoadingScreen extends StatefulWidget {
+  final bool isDarkModeEnabled;
+
+  const LoadingScreen({this.isDarkModeEnabled});
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
 }
@@ -32,7 +35,19 @@ class _LoadingScreenState extends State<LoadingScreen>
     weatherData = await weatherModel.getLocationWeather();
     hourlyData = await weatherModel.getHourlyWeather();
     dailyData = await weatherModel.getDailyWeather();
-    Navigator.of(context).push(_createRoute());
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return LocationScreen(
+            locationWeather: weatherData,
+            hourlyWeather: hourlyData,
+            dailyWeather: dailyData,
+            isDarkModeEnabled:widget.isDarkModeEnabled
+          );
+        },
+      ),
+    );
     // Navigator.push(context, MaterialPageRoute(
     //   builder: (context) {
     //     return ExpansionpanelScreen();
@@ -52,7 +67,6 @@ class _LoadingScreenState extends State<LoadingScreen>
         showLater: true,
         appcastConfig: cfg,
         debugLogging: true,
-        
         child: Center(
           child: SpinKitCubeGrid(
             color: Color(0xFFc41a43),
@@ -66,28 +80,4 @@ class _LoadingScreenState extends State<LoadingScreen>
       ),
     );
   }
-}
-
-Route _createRoute() {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) {
-      return LocationScreen(
-        locationWeather: weatherData,
-        hourlyWeather: hourlyData,
-        dailyWeather: dailyData,
-      );
-    },
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      var begin = Offset(0.0, 1.0);
-      var end = Offset.zero;
-      var curve = Curves.ease;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-      return SlideTransition(
-        position: animation.drive(tween),
-        child: child,
-      );
-    },
-  );
 }

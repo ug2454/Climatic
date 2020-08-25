@@ -20,10 +20,15 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 const googleAPIKey = 'AIzaSyBVu6kY2gzNmzfXJP7noby7wDjuPiQg-ik';
 
 class LocationScreen extends StatefulWidget {
-  LocationScreen({this.locationWeather, this.hourlyWeather, this.dailyWeather});
+  LocationScreen(
+      {this.locationWeather,
+      this.hourlyWeather,
+      this.dailyWeather,
+      this.isDarkModeEnabled});
   final locationWeather;
   final hourlyWeather;
   final dailyWeather;
+  final bool isDarkModeEnabled;
   @override
   _LocationScreenState createState() => _LocationScreenState();
 }
@@ -127,6 +132,7 @@ class _LocationScreenState extends State<LocationScreen>
     updateDailyData(widget.dailyWeather);
 
     _data1 = generateItems(7);
+    print(widget.isDarkModeEnabled);
   }
 
   @override
@@ -472,16 +478,18 @@ class _LocationScreenState extends State<LocationScreen>
                   'Climatic',
                   style: kCityTextStyle.copyWith(
                     fontSize: 20.0,
+                    color: Color(0xFFc41a43),
                   ),
                 ),
               ),
             ),
             ListTile(
+              leading: Icon(Icons.settings),
               title: Text(
                 'Settings',
                 style: kCityTextStyle.copyWith(
                   fontSize: 20.0,
-                  color: 
+                  color: Color(0xFFc41a43),
                 ),
               ),
               onTap: () {
