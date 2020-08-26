@@ -54,14 +54,13 @@ class _LoadingScreenState extends State<LoadingScreen>
   @override
   Widget build(BuildContext context) {
     final appcastURL =
-        'https://play.google.com/store/apps/details?id=co.udayweather.climatic';
+        'https://raw.githubusercontent.com/ug2454/Clima/master/lib/appcast.xml';
     final cfg = AppcastConfiguration(url: appcastURL, supportedOS: ['android']);
 
     return Scaffold(
       body: UpgradeAlert(
         showIgnore: true,
         showLater: true,
-
         appcastConfig: cfg,
         debugLogging: true,
         child: Center(
