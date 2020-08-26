@@ -492,11 +492,7 @@ class _LocationScreenState extends State<LocationScreen>
                 style: Theme.of(context).textTheme.bodyText2,
               ),
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return SettingsScreen();
-                  },
-                ));
+                Navigator.of(context).push(_createRoute());
               },
             )
           ],
@@ -851,4 +847,22 @@ class Item {
   Widget expandedValue;
 
   Item({this.isExpanded = false, this.headerValue, this.expandedValue});
+}
+
+Route _createRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => SettingsScreen(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      var curve = Curves.ease;
+
+      var begin = Offset(5.0, 1.0);
+      var end = Offset.zero;
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
 }

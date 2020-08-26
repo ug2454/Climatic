@@ -24,6 +24,43 @@ class Styles {
       primaryIconTheme: isDarkTheme
           ? IconThemeData(color: Colors.white)
           : IconThemeData(color: Colors.white),
+      textTheme: isDarkTheme
+          ? TextTheme(
+              bodyText2: TextStyle(
+                color: Colors.white,
+                fontFamily: 'Poppins',
+              ),
+            )
+          : TextTheme(
+              bodyText2: TextStyle(
+                color: Colors.black,
+                fontFamily: 'Poppins',
+              ),
+            ),
+      // subtitle2: isDarkTheme
+      //     ? TextStyle(color: Colors.white)
+      //     : TextStyle(color: Colors.black),
+      // subtitle1: isDarkTheme
+      //     ? TextStyle(color: Colors.white)
+      //     : TextStyle(color: Colors.black),
+      // headline1: isDarkTheme
+      //     ? TextStyle(color: Colors.white)
+      //     : TextStyle(color: Colors.black),
+      // headline2: isDarkTheme
+      //     ? TextStyle(color: Colors.white)
+      //     : TextStyle(color: Colors.black),
+      // headline3: isDarkTheme
+      //     ? TextStyle(color: Colors.white)
+      //     : TextStyle(color: Colors.black),
+      // headline4: isDarkTheme
+      //     ? TextStyle(color: Colors.white)
+      //     : TextStyle(color: Colors.black),
+      // headline5: isDarkTheme
+      //     ? TextStyle(color: Colors.white)
+      //     : TextStyle(color: Colors.black),
+      // headline6: isDarkTheme
+      //     ? TextStyle(color: Colors.black)
+      //     : TextStyle(color: Colors.white),
     );
   }
 }
