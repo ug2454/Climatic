@@ -7,13 +7,22 @@ class AddressSearch extends SearchDelegate<Suggestion> {
   }
 
   @override
-  // TODO: implement textInputAction
   TextInputAction get textInputAction => TextInputAction.none;
 
-@override
-// TODO: implement searchFieldStyle
-  TextStyle get searchFieldStyle => TextStyle(color: Colors.black);
-  
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    return theme.copyWith(
+      backgroundColor: Colors.black,
+      primaryColor: Colors.black,
+      textTheme: TextTheme(
+        headline6: TextStyle(color: Colors.white),
+      ),
+    );
+  }
+
+  @override
+  TextStyle get searchFieldStyle => TextStyle(color: Colors.white);
 
   final sessionToken;
   PlaceApiProvider apiClient;

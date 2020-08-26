@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 class Styles {
   static ThemeData themeData(bool isDarkTheme, BuildContext context) {
     return ThemeData(
-      primarySwatch: Colors.red,
-      primaryColor: isDarkTheme ? Colors.white : Colors.black,
+      // appBarTheme: isDarkTheme
+      //     ? AppBarTheme(brightness: Brightness.dark)
+      //     : AppBarTheme(brightness: Brightness.light),
+      // primarySwatch: Colors.red,
+      // primaryColorBrightness: isDarkTheme ? Brightness.light : Brightness.dark,
+      // primaryColor: isDarkTheme ? Colors.white : Colors.black,
       backgroundColor: isDarkTheme ? Colors.black : Colors.white,
       indicatorColor: isDarkTheme ? Color(0xff0E1D36) : Color(0xffCBDCF8),
       buttonColor: isDarkTheme ? Color(0xff3B3B3B) : Color(0xffF1F5FB),
@@ -13,29 +17,13 @@ class Styles {
       hoverColor: isDarkTheme ? Color(0xff3A3A3B) : Color(0xff4285F4),
       focusColor: isDarkTheme ? Color(0xff0B2512) : Color(0xffA8DAB5),
       disabledColor: Colors.grey,
-      textSelectionColor: isDarkTheme ? Colors.white : Colors.black,
+      // textSelectionColor: isDarkTheme ? Colors.white : Colors.black,
       cardColor: isDarkTheme ? Colors.white : Colors.white,
       canvasColor: isDarkTheme ? Colors.black : Colors.grey[50],
       brightness: isDarkTheme ? Brightness.dark : Brightness.light,
       primaryIconTheme: isDarkTheme
           ? IconThemeData(color: Colors.white)
           : IconThemeData(color: Colors.white),
-      textTheme: isDarkTheme
-          ? TextTheme(
-              bodyText2: TextStyle(
-                color: Colors.white,
-                fontFamily: 'Poppins',
-              ),
-            )
-          : TextTheme(
-              bodyText2: TextStyle(
-                color: Colors.black,
-                fontFamily: 'Poppins',
-              ),
-              subtitle1: isDarkTheme
-                  ? TextStyle(color: Colors.black)
-                  : TextStyle(color: Colors.white),
-            ),
     );
   }
 }
