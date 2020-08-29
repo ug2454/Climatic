@@ -1,4 +1,4 @@
-# Clima ☁
+# Climatic ☁
 
 
 ## About this App
