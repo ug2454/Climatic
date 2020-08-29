@@ -3,7 +3,7 @@
 
 ## About this App
 
-A weather app inspired by the beautiful designs made by [Alyssa-Maree](https://dribbble.com/shots/4531602-Weather-App-Concept). In this App you'll be able to find out the live weather data in the current location of the device as well as the weather for any city you can think of!
+A weather app inspired by the beautiful designs made by [Alyssa-Maree](https://dribbble.com/shots/4531602-Weather-App-Concept). In this App you'll be able to find out the live weather data in the current location, hourly weather and 7 day weather of the device as well as the weather for any city you can think of!
 
 ![Finished App](https://cdn.discordapp.com/attachments/570925361576149001/746728236435636314/20200822_192102.gif)
 
