@@ -39,7 +39,7 @@ A weather app inspired by the beautiful designs made by [Alyssa-Maree](https://d
 - Humidity
 - Day/night mode
 - Search weather by city
-- Get current weather on clicking on 'search icon'
+- Get current weather on clicking on 'place icon'
 - Hourly Weather Forecast with dynamic temperature, weather icon and time in horizontal scrolling
 - Get Autocomplete list of cities as you type using Google Places API
 - Google Places API for searching city name.
