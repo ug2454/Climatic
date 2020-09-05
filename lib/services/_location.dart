@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:location/location.dart' as loc;
 
 // import 'package:location/location.dart';
 
@@ -9,6 +10,8 @@ class LocationCoordinates {
 
   Future getCurrentLocation() async {
     try {
+      final loc.Location location = loc.Location();
+      location.requestService();
       Position position = await Geolocator()
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
       _latitude = position.latitude;
