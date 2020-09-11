@@ -1,3 +1,4 @@
+import 'package:clima/push_notifications.dart';
 import 'package:clima/screens/expansion_panel_screen.dart';
 import 'package:clima/screens/location_screen.dart';
 import 'package:clima/services/weather.dart';
@@ -17,13 +18,14 @@ class LoadingScreen extends StatefulWidget {
 
 class _LoadingScreenState extends State<LoadingScreen>
     with TickerProviderStateMixin {
+  final notif = PushNotificationManager();
   @override
   void initState() {
     // ignore: todo
     // TODO: implement initState
     super.initState();
     getLocationData();
-
+    notif.init();
     print('in init state');
   }
 
