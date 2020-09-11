@@ -29,6 +29,7 @@
 .pub/
 *api.dart
 /build/
+*google-services.json
 
 # Android related
 **/android/**/gradle-wrapper.jar
