@@ -44,3 +44,4 @@ A weather app inspired by the beautiful designs made by [Alyssa-Maree](https://d
 - Get Autocomplete list of cities as you type using Google Places API
 - Google Places API for searching city name.
 - 7 Day Weather Forecast with Expandable List. Expand it to reveal more data.
+- Push Notifications on tuesday, thursday, saturday using firebase cloud messaging.
