@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:clima/screens/air_quality.dart';
 import 'package:clima/screens/expansion_panel_screen.dart';
 import 'package:clima/screens/settings_screen.dart';
 import 'package:clima/services/address_search.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 
 import 'package:uuid/uuid.dart';
 
@@ -20,6 +22,7 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 const googleAPIKey = 'AIzaSyBVu6kY2gzNmzfXJP7noby7wDjuPiQg-ik';
 
 class LocationScreen extends StatefulWidget {
+  static const String id = 'loginscreen';
   LocationScreen({
     this.locationWeather,
     this.hourlyWeather,
@@ -493,6 +496,20 @@ class _LocationScreenState extends State<LocationScreen>
               ),
               onTap: () {
                 Navigator.of(context).push(_createRoute());
+              },
+            ),
+            ListTile(
+              leading: Icon(FontAwesome.leaf),
+              title: Text(
+                'Air Quality',
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return AiqQualityScreen();
+                  },
+                ));
               },
             )
           ],
