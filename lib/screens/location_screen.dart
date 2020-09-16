@@ -461,369 +461,391 @@ class _LocationScreenState extends State<LocationScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text(
-          'Climatic',
-          style: kCityTextStyle.copyWith(fontSize: 20.0, color: Colors.white),
+    return ModalProgressHUD(
+      progressIndicator: SpinKitCubeGrid(
+        color: Color(0xFFc41a43),
+        size: 100.0,
+        controller: AnimationController(
+          duration: const Duration(milliseconds: 1200),
+          vsync: this,
         ),
       ),
-      drawer: Drawer(
-        elevation: 5.0,
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            Container(
-              color: Colors.white,
-              child: DrawerHeader(
-                child: Center(
-                  child: Text(
-                    'Climatic',
-                    style: kCityTextStyle.copyWith(
-                      fontSize: 20.0,
-                      color: Color(0xFFc41a43),
+      inAsyncCall: showSpinner,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: Text(
+            'Climatic',
+            style: kCityTextStyle.copyWith(fontSize: 20.0, color: Colors.white),
+          ),
+        ),
+        drawer: Drawer(
+          elevation: 5.0,
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              Container(
+                color: Colors.white,
+                child: DrawerHeader(
+                  child: Center(
+                    child: Text(
+                      'Climatic',
+                      style: kCityTextStyle.copyWith(
+                        fontSize: 20.0,
+                        color: Color(0xFFc41a43),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text(
-                'Settings',
-                style: Theme.of(context).textTheme.bodyText2,
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text(
+                  'Settings',
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
+                onTap: () {
+                  Navigator.of(context).push(_createRoute());
+                },
               ),
-              onTap: () {
-                Navigator.of(context).push(_createRoute());
-              },
-            ),
-            ListTile(
-              leading: Icon(FontAwesome.leaf),
-              title: Text(
-                'Air Quality',
-                style: Theme.of(context).textTheme.bodyText2,
-              ),
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return AiqQualityScreen();
-                  },
-                ));
-              },
-            )
-          ],
-        ),
-      ),
-      // backgroundColor: colourChangeWithTime.getContainerColor(),
-      body: ModalProgressHUD(
-        progressIndicator: SpinKitCubeGrid(
-          color: colourChangeWithTime.getCityTextColor(),
-          size: 100.0,
-          controller: AnimationController(
-            duration: const Duration(milliseconds: 1200),
-            vsync: this,
+              ListTile(
+                leading: Icon(FontAwesome.leaf),
+                title: Text(
+                  'Air Quality',
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
+                onTap: () async {
+                  setState(() {
+                    showSpinner = true;
+                  });
+                  WeatherModel weatherModel = WeatherModel();
+                  var aqiData = await weatherModel.getAirQualityCurrent();
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return AirQualityScreen(
+                        airQualityData: aqiData,
+                      );
+                    },
+                  ));
+                  setState(() {
+                    showSpinner = false;
+                  });
+                },
+              )
+            ],
           ),
         ),
-        inAsyncCall: showSpinner,
-        child: WillPopScope(
-          onWillPop: _onBackPressed,
-          child: GestureDetector(
-            onTap: () {
-              FocusScope.of(context).requestFocus(new FocusNode());
-            },
-            child: Container(
-              padding: EdgeInsets.all(16.0),
-              child: RefreshIndicator(
-                onRefresh: _data,
-                child: SingleChildScrollView(
-                  child: SafeArea(
-                    child: Column(
-                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  flex: 6,
-                                  child: TextField(
-                                    // selectionWidthStyle: BoxWidthStyle.tight,
-                                    controller: _controller,
+        // backgroundColor: colourChangeWithTime.getContainerColor(),
+        body: ModalProgressHUD(
+          progressIndicator: SpinKitCubeGrid(
+            color: colourChangeWithTime.getCityTextColor(),
+            size: 100.0,
+            controller: AnimationController(
+              duration: const Duration(milliseconds: 1200),
+              vsync: this,
+            ),
+          ),
+          inAsyncCall: showSpinner,
+          child: WillPopScope(
+            onWillPop: _onBackPressed,
+            child: GestureDetector(
+              onTap: () {
+                FocusScope.of(context).requestFocus(new FocusNode());
+              },
+              child: Container(
+                padding: EdgeInsets.all(16.0),
+                child: RefreshIndicator(
+                  onRefresh: _data,
+                  child: SingleChildScrollView(
+                    child: SafeArea(
+                      child: Column(
+                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 6,
+                                    child: TextField(
+                                      // selectionWidthStyle: BoxWidthStyle.tight,
+                                      controller: _controller,
 
-                                    readOnly: true,
-                                    onTap: () async {
-                                      // TODO: filter the name till first comma to avoid error
-                                      final sessionToken = Uuid().v4();
-                                      final Suggestion result =
-                                          await showSearch(
-                                              context: context,
-                                              delegate:
-                                                  AddressSearch(sessionToken));
+                                      readOnly: true,
+                                      onTap: () async {
+                                        // TODO: filter the name till first comma to avoid error
+                                        final sessionToken = Uuid().v4();
+                                        final Suggestion result =
+                                            await showSearch(
+                                                context: context,
+                                                delegate: AddressSearch(
+                                                    sessionToken));
 
-                                      setState(() {
-                                        try {
-                                          if (result.description != null) {
-                                            print('result description' +
-                                                result.description);
-                                            setState(() {
-                                              showSpinner = true;
-                                            });
-                                            _controller.text =
-                                                result.description;
+                                        setState(() {
+                                          try {
+                                            if (result.description != null) {
+                                              print('result description' +
+                                                  result.description);
+                                              setState(() {
+                                                showSpinner = true;
+                                              });
+                                              _controller.text =
+                                                  result.description;
 
-                                            if (_controller.text
-                                                .contains(',')) {
-                                              typedCity = _controller.text
-                                                  .substring(
-                                                      0,
-                                                      _controller.text
-                                                          .indexOf(','));
-                                            } else if (_controller.text
-                                                .contains('-')) {
-                                              typedCity = _controller.text
-                                                  .substring(
-                                                      0,
-                                                      _controller.text
-                                                          .indexOf('-'));
+                                              if (_controller.text
+                                                  .contains(',')) {
+                                                typedCity = _controller.text
+                                                    .substring(
+                                                        0,
+                                                        _controller.text
+                                                            .indexOf(','));
+                                              } else if (_controller.text
+                                                  .contains('-')) {
+                                                typedCity = _controller.text
+                                                    .substring(
+                                                        0,
+                                                        _controller.text
+                                                            .indexOf('-'));
+                                              } else {
+                                                typedCity = _controller.text;
+                                              }
+                                              print('typedcity' + typedCity);
+
+                                              searchCity();
                                             } else {
+                                              _controller.text = '';
                                               typedCity = _controller.text;
                                             }
-                                            print('typedcity' + typedCity);
-
-                                            searchCity();
-                                          } else {
-                                            _controller.text = '';
-                                            typedCity = _controller.text;
+                                          } catch (e) {
+                                            print(e);
                                           }
-                                        } catch (e) {
-                                          print(e);
-                                        }
-                                      });
-                                    },
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontFamily: 'Poppins',
-                                    ),
-                                    decoration: InputDecoration(
-                                      hintText: 'Search city name',
-                                      contentPadding: EdgeInsets.all(10.0),
-                                      hintStyle: TextStyle(
-                                        color: Colors.grey,
+                                        });
+                                      },
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'Poppins',
                                       ),
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      prefixIcon: Icon(
-                                        Icons.search,
+                                      decoration: InputDecoration(
+                                        hintText: 'Search city name',
+                                        contentPadding: EdgeInsets.all(10.0),
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        prefixIcon: Icon(
+                                          Icons.search,
+                                          color: Color(0xFFc41a43),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(30.0),
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Color(0xFFc41a43),
+                                          ),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(30.0),
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Color(0xFFc41a43),
+                                          ),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0xFFc41a43),
+                                          ),
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(30.0),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 20.0,
+                                  ),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      //current weather location
+                                      onTap: () async {
+                                        refreshData();
+                                      },
+                                      child: Icon(
+                                        Icons.place,
+                                        size: 40.0,
                                         color: Color(0xFFc41a43),
                                       ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(30.0),
-                                        ),
-                                        borderSide: BorderSide(
-                                          color: Color(0xFFc41a43),
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(30.0),
-                                        ),
-                                        borderSide: BorderSide(
-                                          color: Color(0xFFc41a43),
-                                        ),
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0xFFc41a43),
-                                        ),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(30.0),
-                                        ),
-                                      ),
                                     ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 20.0,
-                                ),
-                                Expanded(
-                                  child: GestureDetector(
-                                    //current weather location
-                                    onTap: () async {
-                                      refreshData();
-                                    },
-                                    child: Icon(
-                                      Icons.place,
-                                      size: 40.0,
-                                      color: Color(0xFFc41a43),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20.0,
-                            ),
-                            Text(
-                              '$cityName',
-                              style: kCityTextStyle,
-                              textAlign: TextAlign.left,
-                            ),
-                            Text(
-                              '$dayWord $date $monthWord $year',
-                              style: kDateTextStyle,
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 40.0,
-                        ),
-                        Container(
-                          child: Center(
-                            child: weatherModel.getWeatherIcon(condition),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20.0,
+                              ),
+                              Text(
+                                '$cityName',
+                                style: kCityTextStyle,
+                                textAlign: TextAlign.left,
+                              ),
+                              Text(
+                                '$dayWord $date $monthWord $year',
+                                style: kDateTextStyle,
+                              )
+                            ],
                           ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              '$newTemp',
-                              style: kTempTextStyle,
+                          SizedBox(
+                            height: 40.0,
+                          ),
+                          Container(
+                            child: Center(
+                              child: weatherModel.getWeatherIcon(condition),
                             ),
-                            Text(
-                              '°',
-                              style: TextStyle(
-                                fontSize: 40.0,
-                                // color: colourChangeWithTime.getTempColor(),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                '$newTemp',
+                                style: kTempTextStyle,
+                              ),
+                              Text(
+                                '°',
+                                style: TextStyle(
+                                  fontSize: 40.0,
+                                  // color: colourChangeWithTime.getTempColor(),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 20.0),
+                          Text(
+                            '$msg',
+                            style: kWeatherDescriptionTextStyle,
+                          ),
+                          SizedBox(
+                            height: 60.0,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              WeatherInfo(
+                                topText: '$feelsLike°',
+                                bottomText: 'Feels Like',
+                              ),
+                              WeatherInfo(
+                                topText: '$visibilityValue km',
+                                bottomText: 'Visibility',
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 50.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              WeatherInfo(
+                                topText: '$pressure hPa',
+                                bottomText: 'Pressure',
+                              ),
+                              WeatherInfo(
+                                topText: '$maxTemp°',
+                                bottomText: 'Max Temp',
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 50.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              WeatherInfo(
+                                topText: '$windSpeed km/hr',
+                                bottomText: 'Wind',
+                              ),
+                              WeatherInfo(
+                                topText: '$humidity%',
+                                bottomText: 'Humidity',
+                              ),
+                            ],
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
                               ),
                             ),
-                          ],
-                        ),
-                        SizedBox(height: 20.0),
-                        Text(
-                          '$msg',
-                          style: kWeatherDescriptionTextStyle,
-                        ),
-                        SizedBox(
-                          height: 60.0,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            WeatherInfo(
-                              topText: '$feelsLike°',
-                              bottomText: 'Feels Like',
-                            ),
-                            WeatherInfo(
-                              topText: '$visibilityValue km',
-                              bottomText: 'Visibility',
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 50.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            WeatherInfo(
-                              topText: '$pressure hPa',
-                              bottomText: 'Pressure',
-                            ),
-                            WeatherInfo(
-                              topText: '$maxTemp°',
-                              bottomText: 'Max Temp',
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 50.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            WeatherInfo(
-                              topText: '$windSpeed km/hr',
-                              bottomText: 'Wind',
-                            ),
-                            WeatherInfo(
-                              topText: '$humidity%',
-                              bottomText: 'Humidity',
-                            ),
-                          ],
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
+                            margin: EdgeInsets.symmetric(vertical: 20.0),
+                            height: 100.0,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 9,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  width: 90.0,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        tempList[index].toInt().toString() +
+                                            '°',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 50.0,
+                                        width: 50.0,
+                                        child: Image(
+                                          image: NetworkImage(
+                                              '$weatherIconUrl${iconList[index]}@4x.png',
+                                              scale: 2),
+                                        ),
+                                      ),
+                                      Text(
+                                        dateList[index],
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
                             ),
                           ),
-                          margin: EdgeInsets.symmetric(vertical: 20.0),
-                          height: 100.0,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: 9,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                width: 90.0,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      tempList[index].toInt().toString() + '°',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 50.0,
-                                      width: 50.0,
-                                      child: Image(
-                                        image: NetworkImage(
-                                            '$weatherIconUrl${iconList[index]}@4x.png',
-                                            scale: 2),
-                                      ),
-                                    ),
-                                    Text(
-                                      dateList[index],
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        Column(children: [
-                          ExpansionPanelList(
-                            animationDuration: Duration(milliseconds: 500),
-                            dividerColor: Colors.grey.shade100,
-                            expansionCallback: (int index, bool isExpanded) {
-                              setState(() {
-                                _data1[index].isExpanded = !isExpanded;
-                              });
-                            },
-                            children: _data1.map<ExpansionPanel>((Item item) {
-                              return ExpansionPanel(
-                                headerBuilder:
-                                    (BuildContext context, bool isExpanded) {
-                                  return ListTile(
-                                    title: item.headerValue,
-                                  );
-                                },
-                                body: ListTile(
-                                  focusColor: Colors.blueAccent,
-                                  title: item.expandedValue,
-                                ),
-                                isExpanded: item.isExpanded,
-                                canTapOnHeader: true,
-                              );
-                            }).toList(),
-                          ),
-                        ]),
-                      ],
+                          Column(children: [
+                            ExpansionPanelList(
+                              animationDuration: Duration(milliseconds: 500),
+                              dividerColor: Colors.grey.shade100,
+                              expansionCallback: (int index, bool isExpanded) {
+                                setState(() {
+                                  _data1[index].isExpanded = !isExpanded;
+                                });
+                              },
+                              children: _data1.map<ExpansionPanel>((Item item) {
+                                return ExpansionPanel(
+                                  headerBuilder:
+                                      (BuildContext context, bool isExpanded) {
+                                    return ListTile(
+                                      title: item.headerValue,
+                                    );
+                                  },
+                                  body: ListTile(
+                                    focusColor: Colors.blueAccent,
+                                    title: item.expandedValue,
+                                  ),
+                                  isExpanded: item.isExpanded,
+                                  canTapOnHeader: true,
+                                );
+                              }).toList(),
+                            ),
+                          ]),
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -37,6 +37,7 @@ class Styles {
                 fontFamily: 'Poppins',
               ),
             ),
+
       // subtitle2: isDarkTheme
       //     ? TextStyle(color: Colors.white)
       //     : TextStyle(color: Colors.black),

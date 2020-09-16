@@ -13,9 +13,11 @@ const openWeatherForecastURL =
 const openWeatherDailyForecastURL =
     'http://api.openweathermap.org/data/2.5/forecast/daily';
 
+const airQualityURL = 'https://api.weatherbit.io/v2.0/current/airquality';
+
 class WeatherModel {
   static final String openWeatherAPIKey = kOpenWeatherAPIKey;
-  ColourChangeWithTime _colourChangeWithTime = ColourChangeWithTime();
+
   Icon getWeatherIcon(int condition) {
     if (condition < 300) {
       return Icon(
@@ -120,4 +122,16 @@ class WeatherModel {
     var weatherData = networkHelper.getData();
     return weatherData;
   }
+
+  Future<dynamic> getAirQualityCurrent() async {
+    LocationCoordinates location = LocationCoordinates();
+    await location.getCurrentLocation();
+    NetworkHelper networkHelper = NetworkHelper(
+        '$airQualityURL?lat=${location.getLatitude()}&lon=${location.getLongitude()}&key=$kAirQualityAPIKey');
+
+    var weatherData = networkHelper.getData();
+    return weatherData;
+  }
+
+  
 }
