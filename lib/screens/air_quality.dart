@@ -192,37 +192,36 @@ class _AirQualityScreenState extends State<AirQualityScreen>
                   height: 30.0,
                 ),
                 Expanded(
-                  child: Card(
-                    child: Container(
-                      width: double.infinity,
-                      // color: Colors.black,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 30.0,
-                          ),
-                          Text(
-                            '$cityName',
-                            textAlign: TextAlign.left,
-                            style: kCityTextStyle.copyWith(
-                              fontSize: 50.0,
-                              
-                            ),
-                          ),
-                          SizedBox(
-                            height: 30.0,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                '$aqi',
-                                style: kTempTextStyle,
+                  child: Container(
+                    width: double.infinity,
+                    // color: Colors.black,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 30.0,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              '$cityName',
+                              textAlign: TextAlign.left,
+                              style: kCityTextStyle.copyWith(
+                                fontSize: 50.0,
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 30.0,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('$aqi', style: kTempTextStyle),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 )
