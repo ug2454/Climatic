@@ -58,3 +58,5 @@ const kAlertBoxTextStyle = TextStyle(color: Colors.white, fontSize: 17.0);
 
 const kExpansionPanelTextStyle =
     TextStyle(fontSize: 15.0, fontFamily: 'Poppins', color: Colors.black);
+
+const kHealthTextStyle = TextStyle(fontSize: 15.0, fontStyle: FontStyle.italic);

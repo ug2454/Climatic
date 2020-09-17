@@ -133,5 +133,13 @@ class WeatherModel {
     return weatherData;
   }
 
-  
+  Future<dynamic> getAirQualityCity(String city) async {
+    LocationCoordinates location = LocationCoordinates();
+    await location.getCurrentLocation();
+    NetworkHelper networkHelper = NetworkHelper(
+        '$airQualityURL?city=$city&key=$kAirQualityAPIKey');
+
+    var weatherData = networkHelper.getData();
+    return weatherData;
+  }
 }

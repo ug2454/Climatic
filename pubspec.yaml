@@ -26,6 +26,7 @@ dependencies:
   location: ^3.0.2
   location_permissions: ^3.0.0+1
   firebase_messaging: ^7.0.0
+  syncfusion_flutter_gauges: ^18.2.57
 
 dev_dependencies:
   flutter_test:
