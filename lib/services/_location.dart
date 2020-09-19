@@ -13,7 +13,7 @@ class LocationCoordinates {
       final loc.Location location = loc.Location();
       location.requestService();
       Position position = await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest);
       _latitude = position.latitude;
       _longitude = position.longitude;
     } catch (e) {
