@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:clima/utilities/api.dart';

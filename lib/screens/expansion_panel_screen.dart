@@ -77,7 +77,7 @@ class _ExpansionpanelScreenState extends State<ExpansionpanelScreen> {
     );
   }
 
-  Widget _buildPanel() {
+  _buildPanel() {
     ListView(children: [
       ExpansionPanelList(
         animationDuration: Duration(milliseconds: 500),

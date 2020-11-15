@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:clima/screens/air_quality.dart';
-import 'package:clima/screens/expansion_panel_screen.dart';
 import 'package:clima/screens/settings_screen.dart';
 import 'package:clima/services/address_search.dart';
 import 'package:clima/services/place_service.dart';
@@ -22,6 +21,7 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 const googleAPIKey = 'AIzaSyBVu6kY2gzNmzfXJP7noby7wDjuPiQg-ik';
 
 class LocationScreen extends StatefulWidget {
+  // TODO: refactor this file
   static const String id = 'loginscreen';
   LocationScreen({
     this.locationWeather,
@@ -49,7 +49,6 @@ class _LocationScreenState extends State<LocationScreen>
   var msg;
   var weatherIcon;
   var newTemp;
-  int _selectedIndex = 0;
   int day = new DateTime.now().weekday;
   int date = new DateTime.now().day;
   int month = new DateTime.now().month;
@@ -467,7 +466,7 @@ class _LocationScreenState extends State<LocationScreen>
         size: 100.0,
         controller: AnimationController(
           duration: const Duration(milliseconds: 1200),
-          vsync: this,
+          // vsync: this,
         ),
       ),
       inAsyncCall: showSpinner,

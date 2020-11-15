@@ -1,6 +1,5 @@
 import 'package:clima/services/_location.dart';
 import 'package:clima/services/networking.dart';
-import 'package:clima/utilities/colour_change_with_time.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttericon/meteocons_icons.dart';
@@ -18,7 +17,7 @@ const airQualityURL = 'https://api.weatherbit.io/v2.0/current/airquality';
 class WeatherModel {
   static final String openWeatherAPIKey = kOpenWeatherAPIKey;
 
-  Icon getWeatherIcon(int condition) {
+  Icon getWeatherIcon(int condition) { // TODO: implement a switch statement for this
     if (condition < 300) {
       return Icon(
         Meteocons.cloud_flash_alt,
@@ -136,8 +135,8 @@ class WeatherModel {
   Future<dynamic> getAirQualityCity(String city) async {
     LocationCoordinates location = LocationCoordinates();
     await location.getCurrentLocation();
-    NetworkHelper networkHelper = NetworkHelper(
-        '$airQualityURL?city=$city&key=$kAirQualityAPIKey');
+    NetworkHelper networkHelper =
+        NetworkHelper('$airQualityURL?city=$city&key=$kAirQualityAPIKey');
 
     var weatherData = networkHelper.getData();
     return weatherData;

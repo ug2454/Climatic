@@ -6,7 +6,7 @@ class NumberLoadingAnimation {
   AnimationController animationController(
       {TickerProvider obj, double upperBoundValue}) {
     controller = AnimationController(
-      vsync: obj,
+      // vsync: obj,
       duration: Duration(seconds: 1),
       upperBound: upperBoundValue,
     );

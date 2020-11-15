@@ -1,5 +1,4 @@
 import 'package:clima/screens/loading_screen.dart';
-import 'package:clima/screens/location_screen.dart';
 import 'package:clima/services/address_search.dart';
 import 'package:clima/services/place_service.dart';
 import 'package:clima/utilities/colour_change_with_time.dart';
@@ -69,6 +68,7 @@ class _AirQualityScreenState extends State<AirQualityScreen>
 
   Text getHealthText(dynamic aqi) {
     if (aqi >= 0 && aqi <= 50) {
+      // TODO: make it better
       return Text(
         'None',
         style: kHealthTextStyle,
@@ -102,7 +102,7 @@ class _AirQualityScreenState extends State<AirQualityScreen>
         color: colourChangeWithTime.getCityTextColor(),
         size: 100.0,
         controller: AnimationController(
-          vsync: this,
+          // vsync: this,
           duration: const Duration(milliseconds: 1200),
         ),
       ),
@@ -157,6 +157,7 @@ class _AirQualityScreenState extends State<AirQualityScreen>
 
                             setState(() {
                               try {
+                                // TODO: make this better
                                 if (result.description != null) {
                                   print('result description' +
                                       result.description);

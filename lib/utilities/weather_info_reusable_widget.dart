@@ -1,7 +1,4 @@
-import 'package:clima/utilities/colour_change_with_time.dart';
 import 'package:flutter/material.dart';
-
-ColourChangeWithTime _colourChangeWithTime = ColourChangeWithTime();
 
 class WeatherInfo extends StatelessWidget {
   const WeatherInfo({this.topText, this.bottomText});
