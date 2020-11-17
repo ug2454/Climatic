@@ -28,7 +28,6 @@ class _AirQualityScreenState extends State<AirQualityScreen>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     updateUI(widget.airQualityData);
   }
@@ -68,7 +67,7 @@ class _AirQualityScreenState extends State<AirQualityScreen>
 
   Text getHealthText(dynamic aqi) {
     if (aqi >= 0 && aqi <= 50) {
-      // TODO: make it better
+      
       return Text(
         'None',
         style: kHealthTextStyle,
@@ -149,7 +148,6 @@ class _AirQualityScreenState extends State<AirQualityScreen>
 
                           readOnly: true,
                           onTap: () async {
-                            // TODO: filter the name till first comma to avoid error
                             final sessionToken = Uuid().v4();
                             final Suggestion result = await showSearch(
                                 context: context,
@@ -157,7 +155,7 @@ class _AirQualityScreenState extends State<AirQualityScreen>
 
                             setState(() {
                               try {
-                                // TODO: make this better
+                                
                                 if (result.description != null) {
                                   print('result description' +
                                       result.description);
@@ -165,6 +163,7 @@ class _AirQualityScreenState extends State<AirQualityScreen>
                                     showSpinner = true;
                                   });
                                   _controller.text = result.description;
+                                  // to filter the name till first comma to avoid error
 
                                   if (_controller.text.contains(',')) {
                                     typedCity = _controller.text.substring(

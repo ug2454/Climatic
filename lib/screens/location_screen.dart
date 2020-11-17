@@ -126,7 +126,6 @@ class _LocationScreenState extends State<LocationScreen>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     updateUI(widget.locationWeather);
@@ -564,7 +563,6 @@ class _LocationScreenState extends State<LocationScreen>
 
                                     readOnly: true,
                                     onTap: () async {
-                                      // TODO: filter the name till first comma to avoid error
                                       final sessionToken = Uuid().v4();
                                       final Suggestion result =
                                           await showSearch(
@@ -582,7 +580,7 @@ class _LocationScreenState extends State<LocationScreen>
                                             });
                                             _controller.text =
                                                 result.description;
-
+                                            //  filter the name till first comma to avoid error
                                             if (_controller.text
                                                 .contains(',')) {
                                               typedCity = _controller.text

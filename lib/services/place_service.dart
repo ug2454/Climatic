@@ -10,7 +10,6 @@ class Suggestion {
 
   @override
   String toString() {
-    // TODO: implement toString
     return 'Suggestion(description:$description,placeId:$placeId)';
   }
 }

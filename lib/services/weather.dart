@@ -17,7 +17,7 @@ const airQualityURL = 'https://api.weatherbit.io/v2.0/current/airquality';
 class WeatherModel {
   static final String openWeatherAPIKey = kOpenWeatherAPIKey;
 
-  Icon getWeatherIcon(int condition) { // TODO: implement a switch statement for this
+  Icon getWeatherIcon(int condition) {
     if (condition < 300) {
       return Icon(
         Meteocons.cloud_flash_alt,
