@@ -67,7 +67,6 @@ class _AirQualityScreenState extends State<AirQualityScreen>
 
   Text getHealthText(dynamic aqi) {
     if (aqi >= 0 && aqi <= 50) {
-      
       return Text(
         'None',
         style: kHealthTextStyle,
@@ -100,10 +99,6 @@ class _AirQualityScreenState extends State<AirQualityScreen>
       progressIndicator: SpinKitCubeGrid(
         color: colourChangeWithTime.getCityTextColor(),
         size: 100.0,
-        controller: AnimationController(
-          // vsync: this,
-          duration: const Duration(milliseconds: 1200),
-        ),
       ),
       inAsyncCall: showSpinner,
       child: Scaffold(
@@ -155,7 +150,6 @@ class _AirQualityScreenState extends State<AirQualityScreen>
 
                             setState(() {
                               try {
-                                
                                 if (result.description != null) {
                                   print('result description' +
                                       result.description);

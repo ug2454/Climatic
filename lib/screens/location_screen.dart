@@ -36,8 +36,7 @@ class LocationScreen extends StatefulWidget {
   _LocationScreenState createState() => _LocationScreenState();
 }
 
-class _LocationScreenState extends State<LocationScreen>
-    with TickerProviderStateMixin {
+class _LocationScreenState extends State<LocationScreen> {
   WeatherModel weatherModel = WeatherModel();
   ColourChangeWithTime colourChangeWithTime = ColourChangeWithTime();
   final _controller = TextEditingController();
@@ -463,10 +462,6 @@ class _LocationScreenState extends State<LocationScreen>
       progressIndicator: SpinKitCubeGrid(
         color: Color(0xFFc41a43),
         size: 100.0,
-        controller: AnimationController(
-          duration: const Duration(milliseconds: 1200),
-          // vsync: this,
-        ),
       ),
       inAsyncCall: showSpinner,
       child: Scaffold(
@@ -506,30 +501,6 @@ class _LocationScreenState extends State<LocationScreen>
                   Navigator.of(context).push(_createRoute());
                 },
               ),
-              ListTile(
-                leading: Icon(FontAwesome.leaf),
-                title: Text(
-                  'Air Quality',
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
-                onTap: () async {
-                  setState(() {
-                    showSpinner = true;
-                  });
-                  WeatherModel weatherModel = WeatherModel();
-                  var aqiData = await weatherModel.getAirQualityCurrent();
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) {
-                      return AirQualityScreen(
-                        airQualityData: aqiData,
-                      );
-                    },
-                  ));
-                  setState(() {
-                    showSpinner = false;
-                  });
-                },
-              )
             ],
           ),
         ),

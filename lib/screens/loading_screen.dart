@@ -67,10 +67,6 @@ class _LoadingScreenState extends State<LoadingScreen>
           child: SpinKitCubeGrid(
             color: Color(0xFFc41a43),
             size: 100.0,
-            controller: AnimationController(
-              // vsync: this,
-              duration: const Duration(milliseconds: 1200),
-            ),
           ),
         ),
       ),

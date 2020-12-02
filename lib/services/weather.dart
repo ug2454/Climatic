@@ -12,7 +12,7 @@ const openWeatherForecastURL =
 const openWeatherDailyForecastURL =
     'http://api.openweathermap.org/data/2.5/forecast/daily';
 
-const airQualityURL = 'https://api.weatherbit.io/v2.0/current/airquality';
+const airQualityURL = 'https://api.ambeedata.com/latest';
 
 class WeatherModel {
   static final String openWeatherAPIKey = kOpenWeatherAPIKey;
@@ -126,9 +126,10 @@ class WeatherModel {
     LocationCoordinates location = LocationCoordinates();
     await location.getCurrentLocation();
     NetworkHelper networkHelper = NetworkHelper(
-        '$airQualityURL?lat=${location.getLatitude()}&lon=${location.getLongitude()}&key=$kAirQualityAPIKey');
+        '$airQualityURL/by-lat-lng');
 
     var weatherData = networkHelper.getData();
+    print(weatherData.toString());
     return weatherData;
   }
 
