@@ -23,7 +23,7 @@ class PlaceApiProvider {
     if (input.length > 2) {
       final request =
           'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&type=(cities)&language=$lang&key=$androidAPIKey&sessiontoken=$sessionToken';
-      print(request);
+
       final response = await client.get(request);
 
       if (response.statusCode == 200) {

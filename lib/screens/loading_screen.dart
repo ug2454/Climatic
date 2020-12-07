@@ -24,7 +24,6 @@ class _LoadingScreenState extends State<LoadingScreen>
     super.initState();
     getLocationData();
     notif.init();
-    print('in init state');
   }
 
   Future getLocationData() async {
@@ -44,11 +43,6 @@ class _LoadingScreenState extends State<LoadingScreen>
         },
       ),
     );
-    // Navigator.push(context, MaterialPageRoute(
-    //   builder: (context) {
-    //     return ExpansionpanelScreen();
-    //   },
-    // ));
   }
 
   @override

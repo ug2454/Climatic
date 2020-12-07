@@ -17,7 +17,6 @@ class _MyAppState extends State<MyApp> {
   DarkThemeProvider themeChangeProvider = new DarkThemeProvider();
   @override
   void initState() {
-    
     super.initState();
     getCurrentAppTheme();
   }

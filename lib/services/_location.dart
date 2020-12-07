@@ -1,8 +1,5 @@
-
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart' as loc;
-
-// import 'package:location/location.dart';
 
 class LocationCoordinates {
   double _latitude;

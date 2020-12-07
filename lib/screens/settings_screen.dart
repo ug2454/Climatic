@@ -22,7 +22,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           'Settings',
           style: kCityTextStyle.copyWith(
             fontSize: 20.0,
-            color: Colors.white,
+            color: kWhiteColor,
           ),
         ),
         leading: GestureDetector(
@@ -35,7 +35,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           },
           child: Icon(
             Icons.arrow_back,
-            color: Colors.white,
+            color: kWhiteColor,
           ),
         ),
       ),

@@ -17,7 +17,6 @@ class PushNotificationManager {
       _firebaseMessaging.configure();
 
       String token = await _firebaseMessaging.getToken();
-      print('Firebase messaging token: $token');
 
       _initialized = true;
     }

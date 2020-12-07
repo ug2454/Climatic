@@ -1,4 +1,5 @@
 import 'package:clima/services/place_service.dart';
+import 'package:clima/utilities/constants.dart';
 import 'package:flutter/material.dart';
 
 class AddressSearch extends SearchDelegate<Suggestion> {
@@ -13,16 +14,16 @@ class AddressSearch extends SearchDelegate<Suggestion> {
   ThemeData appBarTheme(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return theme.copyWith(
-      backgroundColor: Colors.black,
-      primaryColor: Colors.black,
+      backgroundColor: kBlackColor,
+      primaryColor: kBlackColor,
       textTheme: TextTheme(
-        headline6: TextStyle(color: Colors.white),
+        headline6: kTextStyleColorWhite,
       ),
     );
   }
 
   @override
-  TextStyle get searchFieldStyle => TextStyle(color: Colors.white);
+  TextStyle get searchFieldStyle => kTextStyleColorWhite;
 
   final sessionToken;
   PlaceApiProvider apiClient;

@@ -4,7 +4,8 @@ import 'package:clima/screens/settings_screen.dart';
 import 'package:clima/services/address_search.dart';
 import 'package:clima/services/place_service.dart';
 import 'package:clima/services/weather.dart';
-import 'package:clima/utilities/colour_change_with_time.dart';
+import 'package:clima/utilities/alert_box_widget.dart';
+import 'package:clima/utilities/item.dart';
 import 'package:clima/utilities/weather_info_reusable_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,6 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 const googleAPIKey = 'AIzaSyBVu6kY2gzNmzfXJP7noby7wDjuPiQg-ik';
 
 class LocationScreen extends StatefulWidget {
-
   static const String id = 'loginscreen';
   LocationScreen({
     this.locationWeather,
@@ -36,7 +36,6 @@ class LocationScreen extends StatefulWidget {
 
 class _LocationScreenState extends State<LocationScreen> {
   WeatherModel weatherModel = WeatherModel();
-  ColourChangeWithTime colourChangeWithTime = ColourChangeWithTime();
   final _controller = TextEditingController();
   bool showSpinner = false;
   var decodedData;
@@ -462,7 +461,6 @@ class _LocationScreenState extends State<LocationScreen> {
     setState(() {
       try {
         if (result.description != null) {
-          print('result description' + result.description);
           setState(() {
             showSpinner = true;
           });
@@ -477,7 +475,6 @@ class _LocationScreenState extends State<LocationScreen> {
           } else {
             typedCity = _controller.text;
           }
-          print('typedcity' + typedCity);
 
           searchCity();
         } else {
@@ -500,10 +497,10 @@ class _LocationScreenState extends State<LocationScreen> {
       inAsyncCall: showSpinner,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.black,
+          backgroundColor: kBlackColor,
           title: Text(
             'Climatic',
-            style: kCityTextStyle.copyWith(fontSize: 20.0, color: Colors.white),
+            style: kCityTextStyle.copyWith(fontSize: 20.0, color: kWhiteColor),
           ),
         ),
         drawer: buildDrawer(context),
@@ -533,7 +530,6 @@ class _LocationScreenState extends State<LocationScreen> {
 
   Column buildWeatherDetailsColumn() {
     return Column(
-      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -544,16 +540,14 @@ class _LocationScreenState extends State<LocationScreen> {
                 Expanded(
                   flex: 6,
                   child: TextField(
-                    // selectionWidthStyle: BoxWidthStyle.tight,
                     controller: _controller,
-
                     readOnly: true,
                     onTap: searchCityMethod(),
                     style: TextStyle(
-                      color: Colors.black,
+                      color: kBlackColor,
                       fontFamily: 'Poppins',
                     ),
-                    decoration: buildCityInputDecoration(),
+                    decoration: kTextFieldInputDecoration,
                   ),
                 ),
                 const SizedBox(
@@ -674,7 +668,7 @@ class _LocationScreenState extends State<LocationScreen> {
   Container buildTempandWeatherIconContainer() {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: kWhiteColor,
         borderRadius: BorderRadius.all(
           Radius.circular(10.0),
         ),
@@ -690,12 +684,8 @@ class _LocationScreenState extends State<LocationScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  tempList[index].toInt().toString() + '°',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
+                Text(tempList[index].toInt().toString() + '°',
+                    style: kTextStyleColorBlack),
                 Container(
                   height: 50.0,
                   width: 50.0,
@@ -705,12 +695,7 @@ class _LocationScreenState extends State<LocationScreen> {
                         scale: 2),
                   ),
                 ),
-                Text(
-                  dateList[index],
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                )
+                Text(dateList[index], style: kTextStyleColorBlack)
               ],
             ),
           );
@@ -746,46 +731,6 @@ class _LocationScreenState extends State<LocationScreen> {
     );
   }
 
-  InputDecoration buildCityInputDecoration() {
-    return InputDecoration(
-      hintText: 'Search city name',
-      contentPadding: EdgeInsets.all(10.0),
-      hintStyle: TextStyle(
-        color: Colors.grey,
-      ),
-      filled: true,
-      fillColor: Colors.white,
-      prefixIcon: Icon(
-        Icons.search,
-        color: Color(0xFFc41a43),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(30.0),
-        ),
-        borderSide: BorderSide(
-          color: Color(0xFFc41a43),
-        ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(30.0),
-        ),
-        borderSide: BorderSide(
-          color: Color(0xFFc41a43),
-        ),
-      ),
-      border: OutlineInputBorder(
-        borderSide: BorderSide(
-          color: Color(0xFFc41a43),
-        ),
-        borderRadius: BorderRadius.all(
-          Radius.circular(30.0),
-        ),
-      ),
-    );
-  }
-
   Drawer buildDrawer(BuildContext context) {
     return Drawer(
       elevation: 5.0,
@@ -793,7 +738,7 @@ class _LocationScreenState extends State<LocationScreen> {
         padding: EdgeInsets.zero,
         children: [
           Container(
-            color: Colors.white,
+            color: kWhiteColor,
             child: DrawerHeader(
               child: Center(
                 child: Text(
@@ -820,36 +765,6 @@ class _LocationScreenState extends State<LocationScreen> {
       ),
     );
   }
-}
-
-class AlertBoxWidget extends StatelessWidget {
-  const AlertBoxWidget({
-    Key key,
-    @required this.text,
-  });
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: kAlertBoxDecoration,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(14.0, 8.0, 14.0, 8.0),
-        child: Text(
-          text,
-          style: kAlertBoxTextStyle,
-        ),
-      ),
-    );
-  }
-}
-
-class Item {
-  bool isExpanded;
-  Widget headerValue;
-  Widget expandedValue;
-
-  Item({this.isExpanded = false, this.headerValue, this.expandedValue});
 }
 
 Route _createRoute() {

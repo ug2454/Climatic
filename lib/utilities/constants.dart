@@ -1,9 +1,7 @@
 import 'package:clima/screens/location_screen.dart';
-import 'package:clima/utilities/colour_change_with_time.dart';
 import 'package:flutter/material.dart';
 import 'package:clima/services/weather.dart';
 
-ColourChangeWithTime _colourChangeWithTime = ColourChangeWithTime();
 LocationScreen locationScreen = LocationScreen();
 WeatherModel weatherModel = WeatherModel();
 
@@ -11,7 +9,6 @@ var kTempTextStyle = TextStyle(
   fontFamily: 'Poppins',
   fontSize: 100.0,
   fontWeight: FontWeight.w200,
-  // color: _colourChangeWithTime.getTempColor(),
 );
 
 const kMessageTextStyle = TextStyle(
@@ -19,18 +16,11 @@ const kMessageTextStyle = TextStyle(
   fontSize: 60.0,
 );
 
-var kButtonTextStyle = TextStyle(
-  fontSize: 20.0,
-  color: _colourChangeWithTime.getButtonTextColor(),
-  fontFamily: 'Poppins',
-);
-
 const kConditionTextStyle = TextStyle(
   fontSize: 100.0,
 );
 
 var kCityTextStyle = TextStyle(
-  // color: _colourChangeWithTime.getCityTextColor(),
   fontFamily: 'Poppins',
   fontSize: 40.0,
 );
@@ -60,3 +50,49 @@ const kExpansionPanelTextStyle =
     TextStyle(fontSize: 15.0, fontFamily: 'Poppins', color: Colors.black);
 
 const kHealthTextStyle = TextStyle(fontSize: 15.0, fontStyle: FontStyle.italic);
+
+const kTextFieldInputDecoration = InputDecoration(
+  hintText: 'Search city name',
+  contentPadding: EdgeInsets.all(10.0),
+  hintStyle: TextStyle(
+    color: Colors.grey,
+  ),
+  filled: true,
+  fillColor: Colors.white,
+  prefixIcon: Icon(
+    Icons.search,
+    color: Color(0xFFc41a43),
+  ),
+  enabledBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.all(
+      Radius.circular(30.0),
+    ),
+    borderSide: BorderSide(
+      color: Color(0xFFc41a43),
+    ),
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.all(
+      Radius.circular(30.0),
+    ),
+    borderSide: BorderSide(
+      color: Color(0xFFc41a43),
+    ),
+  ),
+  border: OutlineInputBorder(
+    borderSide: BorderSide(
+      color: Color(0xFFc41a43),
+    ),
+    borderRadius: BorderRadius.all(
+      Radius.circular(30.0),
+    ),
+  ),
+);
+
+const kTextStyleColorBlack = TextStyle(color: Colors.black);
+
+const kBlackColor = Colors.black;
+
+const kWhiteColor = Colors.white;
+
+const kTextStyleColorWhite = TextStyle(color: Colors.white);
